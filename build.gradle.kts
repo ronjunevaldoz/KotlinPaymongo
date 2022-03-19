@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.6.10"
 }
 
-group = "com.ronvaldoz.paymongo"
+group = "com.ronvaldoz"
 version = "1.0-SNAPSHOT"
 
 repositories {
