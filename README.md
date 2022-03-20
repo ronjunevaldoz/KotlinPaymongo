@@ -1,4 +1,4 @@
 # KotlinPaymongo
 Paymongo client for kotlin
 
-![Maven Central](https://img.shields.io/maven-central/v/io.github.ronjunevaldoz/kpaymongo-jvm?versionPrefix=1.0&versionSuffix=SNAPSHOT)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.ronjunevaldoz/kpaymongo-jvm?server=https%3A%2F%2Fs01.oss.sonatype.org)
