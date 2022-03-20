@@ -25,13 +25,13 @@ kotlin {
             useJUnit()
         }
     }
-    js(LEGACY) {
-        browser {
-            commonWebpackConfig {
-                cssSupport.enabled = true
-            }
-        }
-    }
+//    js(LEGACY) {
+//        browser {
+//            commonWebpackConfig {
+//                cssSupport.enabled = true
+//            }
+//        }
+//    }
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
     val nativeTarget = when {
@@ -67,10 +67,10 @@ kotlin {
             }
         }
         val jvmTest by getting
-        val jsMain by getting
-        val jsTest by getting
-        val nativeMain by getting
-        val nativeTest by getting
+//        val jsMain by getting
+//        val jsTest by getting
+//        val nativeMain by getting
+//        val nativeTest by getting
     }
 }
 
@@ -90,21 +90,19 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
     from(dokkaOutputDir)
 }
+val ossrhUsername : String? = extra["ossrhUsername"] as String?
+val ossrhPassword : String? = extra["ossrhPassword"] as String?
 
-val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
-val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
-val repositoryId: String? = System.getenv("SONATYPE_REPOSITORY_ID")
 publishing {
     publications {
         repositories {
             maven {
-                name = "oss"
-                val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deployByRepositoryId/$repositoryId/")
-                val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+                val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url =  uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
                 credentials {
-                    username = sonatypeUsername
-                    password = sonatypePassword
+                    username = ossrhUsername
+                    password = ossrhPassword
                 }
             }
         }
@@ -140,9 +138,5 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(
-        System.getenv("GPG_PRIVATE_KEY"),
-        System.getenv("GPG_PRIVATE_PASSWORD")
-    )
     sign(publishing.publications)
 }
