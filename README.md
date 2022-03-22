@@ -47,6 +47,56 @@ val source = client.createSource {
 }
 // TODO - more sample 
 ```
+## Ktor Webhook Integration
+```kotlin 
+// http://localhost/paymongo/events
+fun Route.payMongo() { 
+    route("paymongo") {
+        post("events") {
+            processWebhookEvent(call)
+        }
+    }
+}
+// sample webhook process
+suspend fun processWebhookEvent(call: ApplicationCall) {
+    val jsonString = call.receiveText()
+    val webhookEvent = AppJson.decodeFromString<ReceiveWebhookEvent>(jsonString)
+    val signature = call.request.header("Paymongo-Signature")
+    if (signature == null) {
+        call.respond(HttpStatusCode.Unauthorized, "Missing Paymongo-Signature")
+    } else {
+        // signature verification
+        val sign = signature.split(",")
+        val t = sign[0].replace("t=", "").toLong() // timestamp
+        val te = sign[1].replace("te=", "") // test mode
+        val li = sign[2].replace("li=", "") // live mode
+        val attributes = webhookEvent.data.attributes
+        val liveMode = attributes.liveMode
+        val signatureFromPayload = "$t.$jsonString"
+        val signatureFromHeader = if (liveMode) {
+            li
+        } else {
+            te
+        }
+        val webhookSecretKey = "" // created webhook secret key
+        // hash signature
+        val hashedSignature = hash(content = signatureFromPayload, key = webhookSecretKey, algorithm = "HmacSHA256")
+        // check for a matching signature
+        if (hashedSignature == signatureFromHeader) {
+            // process event response here
+            when (val data = attributes.data) {
+                is Source -> {}
+                is Payment -> {}
+                else -> {}
+            }
+            call.respond(HttpStatusCode.OK, "Webhook OK")
+        } else {
+            call.respond(HttpStatusCode.Unauthorized, "Invalid signature")
+        }
+    }
+}
+
+```
 
 ## Installation
 ```kotlin
