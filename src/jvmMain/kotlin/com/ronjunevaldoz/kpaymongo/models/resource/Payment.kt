@@ -54,7 +54,7 @@ data class Payment(
         val description: String? = null,
         val disputed: Boolean,
         @SerialName("external_reference_number")
-        val externalReferenceNumber: String,
+        val externalReferenceNumber: String?=null,
         val fee: Int,
         @SerialName("livemode")
         val liveMode: Boolean,
@@ -63,7 +63,7 @@ data class Payment(
         val origin: String,
         @SerialName("payment_intent_id")
         val paymentIntentId: String? = null,
-        val payout: String?,
+        val payout: String? = null,
         val source: Source,
         @SerialName("statement_descriptor")
         val statementDescriptor: String? = null,

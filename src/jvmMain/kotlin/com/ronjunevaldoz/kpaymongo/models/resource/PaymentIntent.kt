@@ -1,10 +1,12 @@
 package com.ronjunevaldoz.kpaymongo.models.resource
 
+import com.ronjunevaldoz.kpaymongo.AppJson
 import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentIntentStatusSerializer
 import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentMethodAllowedSerializer
 import com.ronjunevaldoz.kpaymongo.models.serializers.Request3DSecureSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 
 @Serializable
 data class CreatePaymentIntentInput(
@@ -62,7 +64,7 @@ data class PaymentIntent(
     data class Attributes(
         val amount: Int,
         val currency: String,
-        val description: String?,
+        val description: String? = null,
         @SerialName("statement_descriptor")
         val statementDescriptor: String? = null,
         val status: Status,
