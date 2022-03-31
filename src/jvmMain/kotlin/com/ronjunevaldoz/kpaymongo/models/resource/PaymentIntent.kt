@@ -34,13 +34,17 @@ data class AttachPaymentIntentInput(
     val data: PaymentIntentAttach
 ) {
     @Serializable
-    data class PaymentIntentAttach(
+    data class Attributes(
         @SerialName("payment_method")
         val paymentMethodId: String,
         @SerialName("client_key")
         val clientKey: String? = null,
         @SerialName("return_url")
         val returnUrl: String?
+    )
+    @Serializable
+    data class PaymentIntentAttach(
+       val attributes: Attributes
     )
 }
 
