@@ -76,7 +76,7 @@ data class PaymentIntent(
         val captureType: PaymentRequestOptions.Request3DSecure,
         @SerialName("payment_method_allowed")
         val paymentMethodAllowed: List<PaymentMethodAllowed>,
-        val payments: List<String> = emptyList(), // array
+        val payments: List<Payment> = emptyList(), // array
         @SerialName("next_action")
         val nextAction: NextAction?, // array
         @SerialName("payment_method_options")
