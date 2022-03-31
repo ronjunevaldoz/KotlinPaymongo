@@ -38,7 +38,7 @@ data class AttachPaymentIntentInput(
         @SerialName("payment_method")
         val paymentMethodId: String,
         @SerialName("client_key")
-        val clientKey: String?,
+        val clientKey: String? = null,
         @SerialName("return_url")
         val returnUrl: String?
     )
