@@ -57,10 +57,13 @@ interface IKPayMongoClient {
     suspend fun createWebhook(input: CreateWebhookInput): WebhookResponse
 
     /**
-     *  @param [id] Webhook id
+     *  @param [webhookId] Webhook id
      */
-    suspend fun getWebhook(id: String): WebhookResponse
+    suspend fun getWebhook(webhookId: String): WebhookResponse
     suspend fun getWebhooks(): WebhooksResponse
+    suspend fun disableWebhook(webhookId: String): WebhookResponse
+    suspend fun enabledWebhook(webhookId: String): WebhookResponse
+    suspend fun updateWebhook(webhookId: String, input: CreateWebhookInput): WebhookResponse
 }
 
 
@@ -70,6 +73,9 @@ actual class KPayMongoClient actual constructor(secretKey: String) : IKPayMongoC
         install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
+        }
+        install(UserAgent) {
+            agent = "ktor KotlinPaymongo"
         }
         install(ContentNegotiation) {
             json(AppJson)
@@ -108,6 +114,10 @@ actual class KPayMongoClient actual constructor(secretKey: String) : IKPayMongoC
                 throw PayMongoException(error.errors)
             }
         }
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Accept, "application/json")
+        }
     }
 
     private suspend fun getError(responseContent: ByteReadChannel): PayMongoErrorResponse {
@@ -119,110 +129,74 @@ actual class KPayMongoClient actual constructor(secretKey: String) : IKPayMongoC
 
     override suspend fun createSource(input: CreateSourceInput): SourceResponse {
         return client.post("$baseUrl/sources") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
     override suspend fun getSource(id: String): SourceResponse {
-        return client.get("$baseUrl/sources/$id") {
-            contentType(ContentType.Application.Json)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
-        }.body()
+        return client.get("$baseUrl/sources/$id").body()
     }
 
     override suspend fun createPayment(input: CreatePaymentInput): PaymentResponse {
         return client.post("$baseUrl/payments") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
     override suspend fun createPaymentMethod(input: CreatePaymentMethodInput): PaymentMethodResponse {
         return client.post("$baseUrl/payment_methods") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
     override suspend fun createPaymentIntent(input: CreatePaymentIntentInput): PaymentIntentResponse {
         return client.post("$baseUrl/payment_intents") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
     override suspend fun getPaymentIntent(paymentIntentId: String, clientKey: String?): PaymentIntentResponse {
         return client.get("$baseUrl/payment_intents/$paymentIntentId") {
-            contentType(ContentType.Application.Json)
             if (clientKey != null) {
                 parameter("client_key", clientKey)
-            }
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
             }
         }.body()
     }
 
-    override suspend fun attachPaymentIntent(paymentIntentId: String, input: AttachPaymentIntentInput): PaymentIntentResponse {
+    override suspend fun attachPaymentIntent(
+        paymentIntentId: String,
+        input: AttachPaymentIntentInput
+    ): PaymentIntentResponse {
         return client.post("$baseUrl/payment_intents/$paymentIntentId/attach") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
     override suspend fun createWebhook(input: CreateWebhookInput): WebhookResponse {
         return client.post("$baseUrl/webhooks") {
-            contentType(ContentType.Application.Json)
             setBody(input)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
         }.body()
     }
 
-    override suspend fun getWebhook(id: String): WebhookResponse {
-        return client.get("$baseUrl/webhooks/$id") {
-            contentType(ContentType.Application.Json)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
-        }.body()
+    override suspend fun getWebhook(webhookId: String): WebhookResponse {
+        return client.get("$baseUrl/webhooks/$webhookId").body()
     }
 
     override suspend fun getWebhooks(): WebhooksResponse {
-        return client.get("$baseUrl/webhooks") {
-            contentType(ContentType.Application.Json)
-            headers {
-                append(HttpHeaders.Accept, "application/json")
-                append(HttpHeaders.UserAgent, "Ktor GoLearn")
-            }
+        return client.get("$baseUrl/webhooks").body()
+    }
+
+    override suspend fun disableWebhook(webhookId: String): WebhookResponse {
+        return client.post("$baseUrl/webhooks/$webhookId/disable").body()
+    }
+
+    override suspend fun enabledWebhook(webhookId: String): WebhookResponse {
+        return client.post("$baseUrl/webhooks/$webhookId/enable").body()
+    }
+
+    override suspend fun updateWebhook(webhookId: String, input: CreateWebhookInput): WebhookResponse {
+        return client.put("$baseUrl/webhooks/$webhookId") {
+            setBody(input)
         }.body()
     }
 
