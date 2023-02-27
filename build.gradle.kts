@@ -2,8 +2,8 @@ val ktorVersion: String by project
 val serializationVersion: String by project
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("multiplatform") version "1.8.10"
+    kotlin("plugin.serialization") version "1.8.10"
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version "1.6.10"
