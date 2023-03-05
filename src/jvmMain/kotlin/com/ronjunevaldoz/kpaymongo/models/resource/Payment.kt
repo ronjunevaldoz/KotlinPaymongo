@@ -56,6 +56,8 @@ data class Payment(
         @SerialName("external_reference_number")
         val externalReferenceNumber: String?=null,
         val fee: Int,
+        @SerialName("foreign_fee")
+        val foreignFee: Int? = null,
         @SerialName("livemode")
         val liveMode: Boolean,
         @SerialName("net_amount")
@@ -69,7 +71,9 @@ data class Payment(
         val statementDescriptor: String? = null,
         val status: Status,
         @SerialName("tax_amount")
-        val taxAmount: Int? = null
+        val taxAmount: Int? = null,
+        val refunds : List<String> = emptyList(),
+        val taxes : List<String> = emptyList()
     )
 
     @Serializable
