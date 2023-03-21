@@ -14,7 +14,9 @@ val ResourceModule = SerializersModule {
     }
 }
 val AppJson = Json {
+//    useArrayPolymorphism = true
     serializersModule = ResourceModule
+    prettyPrint = true
     ignoreUnknownKeys = true
     isLenient = true
     prettyPrint = true

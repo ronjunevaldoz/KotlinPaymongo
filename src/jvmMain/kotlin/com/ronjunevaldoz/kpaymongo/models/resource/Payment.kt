@@ -38,6 +38,7 @@ data class PaymentResponse(
 
 
 @Serializable
+@SerialName("payment")
 data class Payment(
     val id: String,
     val attributes: Attributes
@@ -73,7 +74,16 @@ data class Payment(
         @SerialName("tax_amount")
         val taxAmount: Int? = null,
         val refunds : List<String> = emptyList(),
-        val taxes : List<String> = emptyList()
+        val taxes : List<String> = emptyList(),
+        val availableAt : Long = 0,
+        @SerialName("created_at")
+        val createdAt : Long = 0,
+        @SerialName("credited_at")
+        val creditedAt : Long = 0,
+        @SerialName("paid_at")
+        val paidAt : Long = 0,
+        @SerialName("updated_at")
+        val updatedAt : Long = 0
     )
 
     @Serializable
