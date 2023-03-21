@@ -21,6 +21,9 @@ Paymongo client for kotlin
 - [x] Get webhooks
 - [ ] Enable/Disable webook
 
+## API Reference
+https://developers.paymongo.com/reference
+
 ## Usage
 ```kotlin
 val client = KPayMongoClient(<PAYMONGO_SECRET_KEY>)
@@ -58,6 +61,8 @@ fun Route.payMongo() {
     }
 }
 // sample webhook process
+// see instruction how to secure webhook 
+// https://developers.paymongo.com/docs/creating-webhook#3-securing-a-webhook-optional-but-highly-recommended
 suspend fun processWebhookEvent(call: ApplicationCall) {
     val jsonString = call.receiveText()
     val webhookEvent = AppJson.decodeFromString<ReceiveWebhookEvent>(jsonString)
