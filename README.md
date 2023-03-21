@@ -108,5 +108,7 @@ repositories {
 
 ## Dependency
 ```kotlin
-implementation("io.github.ronjunevaldoz:kpaymongo-jvm:1.0-SNAPSHOT")
+implementation("io.github.ronjunevaldoz:kpaymongo-jvm:1.0-SNAPSHOT"){
+  isChanging = true // this will allow to get all latest changes
+}
 ```
