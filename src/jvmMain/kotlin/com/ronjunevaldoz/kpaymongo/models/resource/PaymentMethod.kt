@@ -42,6 +42,7 @@ data class PaymentMethodResponse(
 )
 
 @Serializable
+@SerialName("payment_method")
 data class PaymentMethod(
     val id: String,
     val attributes: Attributes

@@ -77,6 +77,7 @@ data class WebhooksResponse(
 )
 
 @Serializable
+@SerialName("webhook")
 data class Webhook(
     val id: String,
     val attributes: Attributes
