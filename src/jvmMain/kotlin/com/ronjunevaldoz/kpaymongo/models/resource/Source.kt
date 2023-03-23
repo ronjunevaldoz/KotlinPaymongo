@@ -56,6 +56,7 @@ data class Source(
         val statementDescriptor: String? = null,
         val status: Status,
         val type: Type,
+        val metadata: Map<String, String>? = null,
         @SerialName("created_at")
         val createdAt: Long,
         @SerialName("updated_at")

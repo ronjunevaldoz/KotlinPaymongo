@@ -28,42 +28,14 @@ class PaymongoSourceBuilder {
     )
 }
 
-class PaymongoPaymentMethodBuilder {
-    var type: PaymentMethod.Type by Delegates.notNull()
-    var billing: Billing by Delegates.notNull()
-    var cardNumber: String by Delegates.notNull()
-    var expMonth: Int by Delegates.notNull()
-    var expYear: Int by Delegates.notNull()
-    var cvc: String by Delegates.notNull()
-    var metadata: Map<String, String> = emptyMap()
-
-    private fun buildDetails() = CreatePaymentMethodInput.CreatePaymentMethod.Details(
-        cardNumber = cardNumber,
-        expMonth = expMonth,
-        expYear = expYear,
-        cvc = cvc
-    )
-
-    fun build() = CreatePaymentMethodInput(
-        data = CreatePaymentMethodInput.CreatePaymentMethod(
-            attributes = CreatePaymentMethodInput.CreatePaymentMethod.Attributes(
-                type = type,
-                details = buildDetails(),
-                billing = billing,
-                metadata = metadata
-            )
-        )
-    )
-}
-
-suspend fun IKPayMongoClient.createSource(input: PaymongoSourceBuilder.() -> Unit): SourceResponse {
+suspend fun IPaymongo.createSource(input: PaymongoSourceBuilder.() -> Unit): SourceResponse {
     val builder = PaymongoSourceBuilder()
     input.invoke(builder)
     return createSource(builder.build())
 }
 
-suspend fun IKPayMongoClient.createPaymentMethod(input: PaymongoPaymentMethodBuilder.() -> Unit): PaymentMethodResponse {
-    val builder = PaymongoPaymentMethodBuilder()
-    input.invoke(builder)
-    return createPaymentMethod(builder.build())
+suspend fun IPaymongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
+    return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput{
+        apply(input)
+    })
 }

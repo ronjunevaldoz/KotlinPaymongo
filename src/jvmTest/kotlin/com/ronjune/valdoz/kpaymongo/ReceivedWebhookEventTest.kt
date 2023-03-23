@@ -1,13 +1,13 @@
 package com.ronjune.valdoz.kpaymongo
 
-import com.ronjunevaldoz.kpaymongo.AppJson
+import com.ronjunevaldoz.kpaymongo.PaymongoJson
 import com.ronjunevaldoz.kpaymongo.models.resource.ReceiveWebhookEvent
 import kotlinx.serialization.decodeFromString
 import kotlin.test.Test
 
 class ReceivedWebhookEventTest {
     @Test
-    fun `Test paid payment event json decode`() {
+    fun `Payment paid should not throw an exception`() {
         val paidPaymentEventJsonString = "{\n" +
                 "    \"data\": {\n" +
                 "        \"id\": \"evt_wHb8c2V8TD6VWVAx3HctprNU\",\n" +
@@ -68,7 +68,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            AppJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
+            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -76,7 +76,7 @@ class ReceivedWebhookEventTest {
     }
 
     @Test
-    fun `Test source json decode`() {
+    fun `Source chargeable should not throw an exception`() {
         val sourceEventJsonString = "{\n" +
                 "    \"data\": {\n" +
                 "        \"id\": \"evt_wHb8c2V8TD6VWVAx3HctprNU\",\n" +
@@ -124,7 +124,64 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            AppJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
+            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
+            assert(true)
+        } catch (e: Exception) {
+            assert(false)
+        }
+    }
+
+    @Test
+    fun `Source expired should not throw an exception`() {
+        val sourceEventJsonString = "{\n" +
+                "    \"data\": {\n" +
+                "        \"id\": \"evt_igPJtkJaQYXkErJ7TYy1ozeo\",\n" +
+                "        \"type\": \"event\",\n" +
+                "        \"attributes\": {\n" +
+                "            \"type\": \"source.chargeable\",\n" +
+                "            \"livemode\": false,\n" +
+                "            \"data\": {\n" +
+                "                \"id\": \"src_fDGs9fzLVKwaL2fH3ciT1nKu\",\n" +
+                "                \"type\": \"source\",\n" +
+                "                \"attributes\": {\n" +
+                "                    \"amount\": 150180,\n" +
+                "                    \"billing\": {\n" +
+                "                        \"address\": {\n" +
+                "                            \"city\": \"\",\n" +
+                "                            \"country\": \"\",\n" +
+                "                            \"line1\": \"\",\n" +
+                "                            \"line2\": \"\",\n" +
+                "                            \"postal_code\": \"\",\n" +
+                "                            \"state\": \"\"\n" +
+                "                        },\n" +
+                "                        \"email\": \"ronjune16@gmail.com\",\n" +
+                "                        \"name\": \"Ron June Valdoz\",\n" +
+                "                        \"phone\": \"+639066835308\"\n" +
+                "                    },\n" +
+                "                    \"currency\": \"PHP\",\n" +
+                "                    \"description\": null,\n" +
+                "                    \"livemode\": false,\n" +
+                "                    \"redirect\": {\n" +
+                "                        \"checkout_url\": \"https://test-sources.paymongo.com/sources?id=src_fDGs9fzLVKwaL2fH3ciT1nKu\",\n" +
+                "                        \"failed\": \"http:localhost:3000/payment-failed\",\n" +
+                "                        \"success\": \"http:localhost:3000/payment-success\"\n" +
+                "                    },\n" +
+                "                    \"statement_descriptor\": null,\n" +
+                "                    \"status\": \"expired\",\n" +
+                "                    \"type\": \"gcash\",\n" +
+                "                    \"metadata\": null,\n" +
+                "                    \"created_at\": 1679478268,\n" +
+                "                    \"updated_at\": 1679478967\n" +
+                "                }\n" +
+                "            },\n" +
+                "            \"previous_data\": {},\n" +
+                "            \"created_at\": 1679444186,\n" +
+                "            \"updated_at\": 1679444186\n" +
+                "        }\n" +
+                "    }\n" +
+                "}"
+        try {
+            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)

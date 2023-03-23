@@ -13,8 +13,7 @@ val ResourceModule = SerializersModule {
         subclass(Webhook::class, Webhook.serializer())
     }
 }
-val AppJson = Json {
-//    useArrayPolymorphism = true
+val PaymongoJson = Json {
     serializersModule = ResourceModule
     prettyPrint = true
     ignoreUnknownKeys = true
