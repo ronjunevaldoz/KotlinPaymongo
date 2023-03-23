@@ -26,7 +26,10 @@ https://developers.paymongo.com/reference
 
 ## Usage
 ```kotlin
-val client = KPayMongoClient(<PAYMONGO_SECRET_KEY>)
+val config = Paymongo.DefaultConfig.apply{
+    secretKey = "sk_123456"
+}
+val client = Paymongo(config)
 
 // create a source via DSL
 val source = client.createSource {
@@ -113,7 +116,7 @@ repositories {
 
 ## Dependency
 ```kotlin
-implementation("io.github.ronjunevaldoz:kpaymongo-jvm:1.0-SNAPSHOT"){
+implementation("io.github.ronjunevaldoz:kpaymongo-jvm:1.0.0-SNAPSHOT"){
   isChanging = true // this will allow to get all latest changes
 }
 ```
