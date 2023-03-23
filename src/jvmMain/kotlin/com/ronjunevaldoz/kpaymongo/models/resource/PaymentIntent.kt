@@ -18,7 +18,7 @@ data class CreatePaymentIntentInput(
         data class AttributesInput(
             val amount: Int,
             @SerialName("payment_method_allowed")
-            val paymentMethodAllowed: List<PaymentIntent.PaymentMethodAllowed>,
+            val paymentMethodAllowed: List<PaymentType>,
             @SerialName("payment_method_options")
             val paymentMethodOptions: PaymentIntent.PaymentRequestOptions? = null,
             val description: String? = null,
@@ -102,8 +102,12 @@ data class PaymentIntent(
         )
     }
 
+    @Deprecated("use Type instead", replaceWith = ReplaceWith("Type", "com.ronjunevaldoz.kpaymongo.models.resource"))
     @Serializable(with = PaymentMethodAllowedSerializer::class)
     enum class PaymentMethodAllowed(val value: String) {
+        Atome("atome"),
+        Dob("dob"),
+        Billease("billease"),
         Card("card"),
         PayMaya("paymaya");
 

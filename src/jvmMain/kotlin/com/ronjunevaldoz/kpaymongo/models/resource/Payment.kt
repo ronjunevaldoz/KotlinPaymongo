@@ -20,7 +20,8 @@ data class CreatePaymentInput(
             val currency: String,
             @SerialName("statement_descriptor")
             val statementDescriptor: String? = null,
-            val source: SourceInput
+            val source: SourceInput,
+            val metadata: Map<String, String>? = null
         )
 
         @Serializable
