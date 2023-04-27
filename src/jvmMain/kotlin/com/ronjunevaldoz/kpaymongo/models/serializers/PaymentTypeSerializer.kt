@@ -12,7 +12,7 @@ class PaymentTypeSerializer : KSerializer<PaymentType> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Type", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): PaymentType {
         val string = decoder.decodeString()
-        return PaymentType.values().firstOrNull { it.value == string } ?: throw Exception("Type not yet supported $string")
+        return PaymentType.values().find { it.value == string } ?: throw Exception("Type not yet supported $string")
     }
 
     override fun serialize(encoder: Encoder, value: PaymentType) {

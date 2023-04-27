@@ -6,7 +6,7 @@ import kotlin.properties.Delegates
 
 
 class PaymongoSourceBuilder {
-    var type: Source.Type by Delegates.notNull()
+    var type: PaymentType by Delegates.notNull()
     var amount: Int by Delegates.notNull()
     var redirectSuccess: String by Delegates.notNull()
     var redirectFailed: String by Delegates.notNull()

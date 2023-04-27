@@ -161,6 +161,20 @@ actual class Paymongo actual constructor(config: Config) : IPaymongo {
         }.body()
     }
 
+    override suspend fun createCheckoutSession(input: CreateCheckoutSessionInput): CheckoutSessionResponse {
+        return client.post("/checkout_sessions") {
+            setBody(input)
+        }.body()
+    }
+
+    override suspend fun getCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse {
+        return client.get("/checkout_sessions/$checkoutSessionId").body()
+    }
+
+    override suspend fun expireCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse {
+        return client.post("/checkout_sessions/$checkoutSessionId/expire").body()
+    }
+
     companion object {
         val DefaultConfig = Config(
             engine = CIO.create(),

@@ -6,5 +6,5 @@ data class Billing(
     val name: String,
     val phone: String,
     val email: String,
-    val address: Address
+    val address: Address? = null
 )

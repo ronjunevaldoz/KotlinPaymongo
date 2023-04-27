@@ -1,7 +1,5 @@
 package com.ronjunevaldoz.kpaymongo.models.resource
 
-import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentIntentStatusSerializer
-import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentMethodAllowedSerializer
 import com.ronjunevaldoz.kpaymongo.models.serializers.Request3DSecureSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -66,7 +64,7 @@ data class PaymentIntent(
         val description: String? = null,
         @SerialName("statement_descriptor")
         val statementDescriptor: String? = null,
-        val status: Status,
+        val status: PaymentStatus,
         @SerialName("livemode")
         val liveMode: Boolean,
         @SerialName("client_key")
@@ -76,7 +74,7 @@ data class PaymentIntent(
         @SerialName("capture_type")
         val captureType: PaymentRequestOptions.Request3DSecure,
         @SerialName("payment_method_allowed")
-        val paymentMethodAllowed: List<PaymentMethodAllowed>,
+        val paymentMethodAllowed: List<PaymentType>,
         val payments: List<Payment> = emptyList(), // array
         @SerialName("next_action")
         val nextAction: NextAction?, // array
@@ -102,20 +100,6 @@ data class PaymentIntent(
         )
     }
 
-    @Deprecated("use Type instead", replaceWith = ReplaceWith("Type", "com.ronjunevaldoz.kpaymongo.models.resource"))
-    @Serializable(with = PaymentMethodAllowedSerializer::class)
-    enum class PaymentMethodAllowed(val value: String) {
-        Atome("atome"),
-        Dob("dob"),
-        Billease("billease"),
-        Card("card"),
-        PayMaya("paymaya");
-
-        companion object {
-            val All = values().toList()
-        }
-    }
-
     @Serializable
     data class PaymentRequestOptions(
         val card: Card
@@ -134,11 +118,4 @@ data class PaymentIntent(
 
     }
 
-    @Serializable(with = PaymentIntentStatusSerializer::class)
-    enum class Status(val value: String) {
-        AwaitingPaymentMethod("awaiting_payment_method"),
-        AwaitingNextAction("awaiting_next_action"),
-        Processing("processing"),
-        Succeed("succeeded"),
-    }
 }

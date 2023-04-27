@@ -47,4 +47,13 @@ interface IPaymongo {
     suspend fun disableWebhook(webhookId: String): WebhookResponse
     suspend fun enabledWebhook(webhookId: String): WebhookResponse
     suspend fun updateWebhook(webhookId: String, input: CreateWebhookInput): WebhookResponse
+
+    /**
+     * New!
+     * Checkout Session
+     * https://developers.paymongo.com/reference/create-a-checkout
+     */
+    suspend fun createCheckoutSession(input: CreateCheckoutSessionInput): CheckoutSessionResponse
+    suspend fun getCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse
+    suspend fun expireCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse
 }
