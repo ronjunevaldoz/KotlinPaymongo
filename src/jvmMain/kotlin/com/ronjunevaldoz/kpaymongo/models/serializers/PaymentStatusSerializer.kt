@@ -1,6 +1,6 @@
 package com.ronjunevaldoz.kpaymongo.models.serializers
 
-import com.ronjunevaldoz.kpaymongo.models.resource.Payment
+import com.ronjunevaldoz.kpaymongo.models.resource.PaymentStatus
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -8,14 +8,14 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-class PaymentStatusSerializer : KSerializer<Payment.Status> {
+class PaymentStatusSerializer : KSerializer<PaymentStatus> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PaymentStatus", PrimitiveKind.STRING)
-    override fun deserialize(decoder: Decoder): Payment.Status {
+    override fun deserialize(decoder: Decoder): PaymentStatus {
         val string = decoder.decodeString()
-        return Payment.Status.values().first { it.value == string }
+        return PaymentStatus.values().find { it.value == string } ?: throw Exception("Not supported $string")
     }
 
-    override fun serialize(encoder: Encoder, value: Payment.Status) {
+    override fun serialize(encoder: Encoder, value: PaymentStatus) {
         encoder.encodeString(value.value)
     }
 }

@@ -19,6 +19,7 @@ object ResourceSerializer : JsonContentPolymorphicSerializer<Resource>(Resource:
             "webhook" in element.jsonObject -> Webhook.serializer()
             "payment_intent" in element.jsonObject -> PaymentIntent.serializer()
             "payment_method" in element.jsonObject -> PaymentMethod.serializer()
+            "checkout_session" in element.jsonObject -> CheckoutSession.serializer()
             else -> throw Exception("Resource not yet supported. `${element.jsonObject["type"]}`")
         }
     }

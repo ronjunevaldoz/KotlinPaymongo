@@ -14,7 +14,7 @@ class Request3DSecureSerializer : KSerializer<PaymentIntent.PaymentRequestOption
 
     override fun deserialize(decoder: Decoder): PaymentIntent.PaymentRequestOptions.Request3DSecure {
         val string = decoder.decodeString()
-        return PaymentIntent.PaymentRequestOptions.Request3DSecure.values().first { it.value == string }
+        return PaymentIntent.PaymentRequestOptions.Request3DSecure.values().find { it.value == string } ?: throw Exception("Not supported $string")
     }
 
     override fun serialize(encoder: Encoder, value: PaymentIntent.PaymentRequestOptions.Request3DSecure) {

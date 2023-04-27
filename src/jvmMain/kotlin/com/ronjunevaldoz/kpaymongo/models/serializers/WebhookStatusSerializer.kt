@@ -12,7 +12,7 @@ class WebhookStatusSerializer : KSerializer<Webhook.Status> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("WebhookStatus", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): Webhook.Status {
         val string = decoder.decodeString()
-        return Webhook.Status.values().first { it.value == string }
+        return Webhook.Status.values().find { it.value == string } ?: throw Exception("Not supported $string")
     }
 
     override fun serialize(encoder: Encoder, value: Webhook.Status) {

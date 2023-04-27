@@ -1,6 +1,8 @@
 package com.ronjune.valdoz.kpaymongo
 
 import com.ronjunevaldoz.kpaymongo.PaymongoJson
+import com.ronjunevaldoz.kpaymongo.models.resource.CheckoutSessionResponse
+import com.ronjunevaldoz.kpaymongo.models.resource.CreateCheckoutSessionInput
 import com.ronjunevaldoz.kpaymongo.models.resource.ReceiveWebhookEvent
 import kotlinx.serialization.decodeFromString
 import kotlin.test.Test
@@ -182,6 +184,259 @@ class ReceivedWebhookEventTest {
                 "}"
         try {
             PaymongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
+            assert(true)
+        } catch (e: Exception) {
+            assert(false)
+        }
+    }
+
+    @Test
+    fun `Checkout session response should not throw an exception`() {
+        val sourceEventJsonString = "{\n" +
+                "  \"data\": {\n" +
+                "    \"id\": \"cs_JVvRBBmEiQ96hA8TrpFpLYwC\",\n" +
+                "    \"type\": \"checkout_session\",\n" +
+                "    \"attributes\": {\n" +
+                "      \"billing\": {\n" +
+                "        \"address\": {\n" +
+                "          \"city\": null,\n" +
+                "          \"country\": null,\n" +
+                "          \"line1\": null,\n" +
+                "          \"line2\": null,\n" +
+                "          \"postal_code\": null,\n" +
+                "          \"state\": null\n" +
+                "        },\n" +
+                "        \"email\": \"ronjune.lopez@gmail.com\",\n" +
+                "        \"name\": \"Ron\",\n" +
+                "        \"phone\": \"09066835308\"\n" +
+                "      },\n" +
+                "      \"billing_information_fields_editable\": \"enabled\",\n" +
+                "      \"cancel_url\": \"http://localhost:3000/checkout/cancelled\",\n" +
+                "      \"checkout_url\": \"https://checkout.paymongo.com/cs_JVvRBBmEiQ96hA8TrpFpLYwC_client_YVx49STjCD1WjKhCo72bPkCY#cGtfdGVzdF9zTEVYOXp3UkJSRlc0SEJZb2VmQmFnalI=\",\n" +
+                "      \"client_key\": \"cs_JVvRBBmEiQ96hA8TrpFpLYwC_client_YVx49STjCD1WjKhCo72bPkCY\",\n" +
+                "      \"customer_email\": null,\n" +
+                "      \"description\": \"Payment made here will reflect to subscription\",\n" +
+                "      \"line_items\": [\n" +
+                "        {\n" +
+                "          \"amount\": 10050,\n" +
+                "          \"currency\": \"PHP\",\n" +
+                "          \"description\": \"Test item\",\n" +
+                "          \"images\": [],\n" +
+                "          \"name\": \"Golearn Free\",\n" +
+                "          \"quantity\": 1\n" +
+                "        }\n" +
+                "      ],\n" +
+                "      \"livemode\": false,\n" +
+                "      \"merchant\": null,\n" +
+                "      \"payments\": [],\n" +
+                "      \"payment_intent\": {\n" +
+                "        \"id\": \"pi_7hxSYj1Ddw8FAAEZh6Pfsueo\",\n" +
+                "        \"type\": \"payment_intent\",\n" +
+                "        \"attributes\": {\n" +
+                "          \"amount\": 10050,\n" +
+                "          \"capture_type\": \"automatic\",\n" +
+                "          \"client_key\": \"pi_7hxSYj1Ddw8FAAEZh6Pfsueo_client_LvGb6FPRWpEVBhqNiG5Cnrdn\",\n" +
+                "          \"currency\": \"PHP\",\n" +
+                "          \"description\": \"Payment made here will reflect to subscription\",\n" +
+                "          \"livemode\": false,\n" +
+                "          \"statement_descriptor\": \"GoLearn Subscription\",\n" +
+                "          \"status\": \"awaiting_payment_method\",\n" +
+                "          \"last_payment_error\": null,\n" +
+                "          \"payment_method_allowed\": [\n" +
+                "            \"gcash\",\n" +
+                "            \"paymaya\",\n" +
+                "            \"card\",\n" +
+                "            \"grab_pay\",\n" +
+                "            \"dob\",\n" +
+                "            \"billease\",\n" +
+                "            \"atome\"\n" +
+                "          ],\n" +
+                "          \"payments\": [],\n" +
+                "          \"next_action\": null,\n" +
+                "          \"payment_method_options\": {\n" +
+                "            \"card\": {\n" +
+                "              \"request_three_d_secure\": \"any\"\n" +
+                "            }\n" +
+                "          },\n" +
+                "          \"metadata\": null,\n" +
+                "          \"setup_future_usage\": null,\n" +
+                "          \"created_at\": 1682145975,\n" +
+                "          \"updated_at\": 1682145975\n" +
+                "        }\n" +
+                "      },\n" +
+                "      \"payment_method_types\": [\n" +
+                "        \"card\",\n" +
+                "        \"paymaya\",\n" +
+                "        \"dob\",\n" +
+                "        \"atome\",\n" +
+                "        \"billease\",\n" +
+                "        \"grab_pay\",\n" +
+                "        \"gcash\"\n" +
+                "      ],\n" +
+                "      \"reference_number\": \"ref_123\",\n" +
+                "      \"send_email_receipt\": false,\n" +
+                "      \"show_description\": true,\n" +
+                "      \"show_line_items\": true,\n" +
+                "      \"status\": \"active\",\n" +
+                "      \"success_url\": \"http://localhost:3000/checkout/success\",\n" +
+                "      \"created_at\": 1682145975,\n" +
+                "      \"updated_at\": 1682145975,\n" +
+                "      \"metadata\": null\n" +
+                "    }\n" +
+                "  }\n" +
+                "}"
+        try {
+            PaymongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
+            assert(true)
+        } catch (e: Exception) {
+            assert(false)
+        }
+    }
+
+    @Test
+    fun `Create Checkout session should not throw an exception`() {
+        val sourceEventJsonString = "{\n" +
+                "  \"data\": {\n" +
+                "    \"attributes\": {\n" +
+                "      \"billing\": {\n" +
+                "        \"name\": \"Ron\",\n" +
+                "        \"email\": \"ronjune.lopez@gmail.com\",\n" +
+                "        \"phone\": \"09066835308\"\n" +
+                "      },\n" +
+                "      \"line_items\": [\n" +
+                "        {\n" +
+                "          \"currency\": \"PHP\",\n" +
+                "          \"amount\": 10050,\n" +
+                "          \"description\": \"Test item\",\n" +
+                "          \"name\": \"Golearn Free\",\n" +
+                "          \"quantity\": 1\n" +
+                "        }\n" +
+                "      ],\n" +
+                "      \"payment_method_types\": [\n" +
+                "        \"atome\",\n" +
+                "        \"billease\",\n" +
+                "        \"card\",\n" +
+                "        \"dob\",\n" +
+                "        \"gcash\",\n" +
+                "        \"grab_pay\",\n" +
+                "        \"paymaya\"\n" +
+                "      ],\n" +
+                "      \"send_email_receipt\": false,\n" +
+                "      \"show_description\": true,\n" +
+                "      \"show_line_items\": true,\n" +
+                "      \"cancel_url\": \"http://localhost:3000/checkout/cancelled\",\n" +
+                "      \"reference_number\": \"ref_123\",\n" +
+                "      \"success_url\": \"http://localhost:3000/checkout/success\",\n" +
+                "      \"statement_descriptor\": \"GoLearn Subscription\",\n" +
+                "      \"description\": \"Payment made here will reflect to subscription\"\n" +
+                "    }\n" +
+                "  }\n" +
+                "}"
+        try {
+            PaymongoJson.decodeFromString<CreateCheckoutSessionInput>(sourceEventJsonString)
+            assert(true)
+        } catch (e: Exception) {
+            assert(false)
+        }
+    }
+
+    @Test
+    fun `Expire Checkout session should not throw an exception`() {
+        val sourceEventJsonString = "{\n" +
+                "  \"data\": {\n" +
+                "    \"id\": \"cs_8ESmjsyoJUgJtSnfKYr94hdJ\",\n" +
+                "    \"type\": \"checkout_session\",\n" +
+                "    \"attributes\": {\n" +
+                "      \"billing\": {\n" +
+                "        \"address\": {\n" +
+                "          \"city\": null,\n" +
+                "          \"country\": null,\n" +
+                "          \"line1\": null,\n" +
+                "          \"line2\": null,\n" +
+                "          \"postal_code\": null,\n" +
+                "          \"state\": null\n" +
+                "        },\n" +
+                "        \"email\": \"ronjune.lopez@gmail.com\",\n" +
+                "        \"name\": \"Ron\",\n" +
+                "        \"phone\": \"09066835308\"\n" +
+                "      },\n" +
+                "      \"billing_information_fields_editable\": \"enabled\",\n" +
+                "      \"cancel_url\": \"http://localhost:3000/checkout/cancelled\",\n" +
+                "      \"checkout_url\": \"https://checkout.paymongo.com/cs_8ESmjsyoJUgJtSnfKYr94hdJ_client_UYzNWYSceT54mPrH8uBdgJVQ#cGtfdGVzdF9zTEVYOXp3UkJSRlc0SEJZb2VmQmFnalI=\",\n" +
+                "      \"client_key\": \"cs_8ESmjsyoJUgJtSnfKYr94hdJ_client_UYzNWYSceT54mPrH8uBdgJVQ\",\n" +
+                "      \"customer_email\": null,\n" +
+                "      \"description\": \"Payment made here will reflect to subscription\",\n" +
+                "      \"line_items\": [\n" +
+                "        {\n" +
+                "          \"amount\": 10050,\n" +
+                "          \"currency\": \"PHP\",\n" +
+                "          \"description\": \"Test item\",\n" +
+                "          \"images\": [],\n" +
+                "          \"name\": \"Golearn Free\",\n" +
+                "          \"quantity\": 1\n" +
+                "        }\n" +
+                "      ],\n" +
+                "      \"livemode\": false,\n" +
+                "      \"merchant\": null,\n" +
+                "      \"payments\": [],\n" +
+                "      \"payment_intent\": {\n" +
+                "        \"id\": \"pi_1Amzsj5KZJq8dcD8vychjHQf\",\n" +
+                "        \"type\": \"payment_intent\",\n" +
+                "        \"attributes\": {\n" +
+                "          \"amount\": 10050,\n" +
+                "          \"capture_type\": \"automatic\",\n" +
+                "          \"client_key\": \"pi_1Amzsj5KZJq8dcD8vychjHQf_client_qm79cuap6YwLEQVQAAmGoHbv\",\n" +
+                "          \"currency\": \"PHP\",\n" +
+                "          \"description\": \"Payment made here will reflect to subscription\",\n" +
+                "          \"livemode\": false,\n" +
+                "          \"statement_descriptor\": \"GoLearn Subscription\",\n" +
+                "          \"status\": \"cancelled\",\n" +
+                "          \"last_payment_error\": null,\n" +
+                "          \"payment_method_allowed\": [\n" +
+                "            \"grab_pay\",\n" +
+                "            \"billease\",\n" +
+                "            \"gcash\",\n" +
+                "            \"atome\",\n" +
+                "            \"paymaya\",\n" +
+                "            \"dob\",\n" +
+                "            \"card\"\n" +
+                "          ],\n" +
+                "          \"payments\": [],\n" +
+                "          \"next_action\": null,\n" +
+                "          \"payment_method_options\": {\n" +
+                "            \"card\": {\n" +
+                "              \"request_three_d_secure\": \"any\"\n" +
+                "            }\n" +
+                "          },\n" +
+                "          \"metadata\": null,\n" +
+                "          \"setup_future_usage\": null,\n" +
+                "          \"created_at\": 1682612594,\n" +
+                "          \"updated_at\": 1682612607\n" +
+                "        }\n" +
+                "      },\n" +
+                "      \"payment_method_types\": [\n" +
+                "        \"paymaya\",\n" +
+                "        \"card\",\n" +
+                "        \"grab_pay\",\n" +
+                "        \"atome\",\n" +
+                "        \"gcash\",\n" +
+                "        \"dob\",\n" +
+                "        \"billease\"\n" +
+                "      ],\n" +
+                "      \"reference_number\": \"ref_123\",\n" +
+                "      \"send_email_receipt\": false,\n" +
+                "      \"show_description\": true,\n" +
+                "      \"show_line_items\": true,\n" +
+                "      \"status\": \"expired\",\n" +
+                "      \"success_url\": \"http://localhost:3000/checkout/success\",\n" +
+                "      \"created_at\": 1682612594,\n" +
+                "      \"updated_at\": 1682612607,\n" +
+                "      \"metadata\": null\n" +
+                "    }\n" +
+                "  }\n" +
+                "}"
+        try {
+            PaymongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)

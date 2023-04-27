@@ -1,7 +1,6 @@
 package com.ronjunevaldoz.kpaymongo.models.resource
 
 import com.ronjunevaldoz.kpaymongo.models.Billing
-import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentStatusSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -71,7 +70,7 @@ data class Payment(
         val source: Source,
         @SerialName("statement_descriptor")
         val statementDescriptor: String? = null,
-        val status: Status,
+        val status: PaymentStatus,
         @SerialName("tax_amount")
         val taxAmount: Int? = null,
         val refunds : List<String> = emptyList(),
@@ -93,11 +92,4 @@ data class Payment(
         val type: String,
     )
 
-    @Serializable(with = PaymentStatusSerializer::class)
-    enum class Status(val value: String) {
-        // Payments
-        Pending("pending"),
-        Failed("failed"),
-        Paid("paid")
-    }
 }

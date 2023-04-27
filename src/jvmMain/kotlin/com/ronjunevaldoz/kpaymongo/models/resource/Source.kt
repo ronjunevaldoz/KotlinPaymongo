@@ -1,8 +1,6 @@
 package com.ronjunevaldoz.kpaymongo.models.resource
 
 import com.ronjunevaldoz.kpaymongo.models.Billing
-import com.ronjunevaldoz.kpaymongo.models.serializers.SourceStatusSerializer
-import com.ronjunevaldoz.kpaymongo.models.serializers.SourceTypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,7 +16,7 @@ data class CreateSourceInput(
 
     @Serializable
     data class AttributesInput(
-        val type: Source.Type,
+        val type: PaymentType,
         val amount: Int,
         val currency: String,
         val redirect: RedirectInput,
@@ -54,8 +52,8 @@ data class Source(
         val redirect: Redirect,
         @SerialName("statement_descriptor")
         val statementDescriptor: String? = null,
-        val status: Status,
-        val type: Type,
+        val status: PaymentStatus,
+        val type: PaymentType,
         val metadata: Map<String, String>? = null,
         @SerialName("created_at")
         val createdAt: Long,
@@ -70,21 +68,4 @@ data class Source(
         val success: String,
         val failed: String,
     )
-
-    @Serializable(with = SourceTypeSerializer::class)
-    enum class Type(val value: String) {
-        GCash("gcash"),
-        GrabPay("grab_pay")
-    }
-
-    @Serializable(with = SourceStatusSerializer::class)
-    enum class Status(val value: String) {
-        // Source
-        Pending("pending"),
-        Chargeable("chargeable"),
-        Cancelled("cancelled"),
-        Expired("expired"),
-        Paid("paid"),
-    }
-
 }
