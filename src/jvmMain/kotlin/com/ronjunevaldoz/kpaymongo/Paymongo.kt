@@ -74,7 +74,7 @@ actual class Paymongo actual constructor(config: Config) : IPaymongo {
                 }
             }
             defaultRequest {
-                host = API_V1
+                url(API_V1)
                 contentType(ContentType.Application.Json)
                 header(HttpHeaders.Accept, "application/json")
             }
@@ -89,7 +89,7 @@ actual class Paymongo actual constructor(config: Config) : IPaymongo {
     }
 
     override suspend fun createSource(input: CreateSourceInput): SourceResponse {
-        return client.post("$API_V1/sources") {
+        return client.post("/sources") {
             setBody(input)
         }.body()
     }
