@@ -1,0 +1,37 @@
+image: gradle:7.2-jdk11
+
+variables:
+  # Use the value from GitLab variables
+  MAVEN_USERNAME: ${CI_MAVEN_USERNAME}
+  MAVEN_PASSWORD: ${CI_MAVEN_PASSWORD}
+  SIGNING_KEY_ID: ${CI_SIGNING_KEY_ID}
+  SIGNING_PASSWORD: ${CI_SIGNING_PASSWORD}
+  SIGNING_KEY: ${CI_SIGNING_KEY}
+  GIT_STRATEGY: clone
+
+stages:
+  - build
+  - publish
+
+# Build stage
+build:
+  stage: build
+  script:
+    - cp secret.properties.sample secret.properties
+    - gradle build
+
+# Publish stage
+publish:
+  stage: publish
+  script:
+    - echo "Publishing to Maven repository"
+    - echo "ossrhUsername=$MAVEN_USERNAME" >> secret.properties
+    - echo "ossrhPassword=$MAVEN_PASSWORD" >> secret.properties
+    - echo "signing.keyId=$SIGNING_KEY_ID" >> secret.properties
+    - echo "signing.password=$SIGNING_PASSWORD" >> secret.properties
+    - echo "signing.secretKey=$SIGNING_KEY" >> secret.properties
+    - gradle publishJvmPublicationToMavenRepository
+  dependencies:
+    - build
+  only:
+    - main
