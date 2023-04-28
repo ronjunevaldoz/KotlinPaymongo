@@ -29,11 +29,16 @@ data class CheckoutSession(
         @SerialName("livemode")
         val liveMode : Boolean,
         val merchant: String? = null,
+        val origin: String? = null,
+        @SerialName("paid_at")
+        val paidAt : Long? = null,
         val payments: List<Payment> = emptyList(),
         @SerialName("payment_intent")
         val paymentIntent : PaymentIntent,
         @SerialName("payment_method_types")
         val paymentMethodTypes : List<PaymentType>,
+        @SerialName("payment_method_used")
+        val paymentMethodUsed : PaymentType? = null,
         @SerialName("reference_number")
         val referenceNumber: String,
         @SerialName("send_email_receipt")
@@ -42,6 +47,8 @@ data class CheckoutSession(
         val showDescription: Boolean,
         @SerialName("show_line_items")
         val showLineItems: Boolean,
+        @SerialName("source_id")
+        val sourceId : String? = null,
         val status: PaymentStatus,
         @SerialName("success_url")
         val successUrl : String,
