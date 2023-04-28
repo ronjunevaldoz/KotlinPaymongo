@@ -73,6 +73,7 @@ data class Payment(
         val status: PaymentStatus,
         @SerialName("tax_amount")
         val taxAmount: Int? = null,
+        val metadata: Map<String, String>? = null,
         val refunds : List<String> = emptyList(),
         val taxes : List<String> = emptyList(),
         val availableAt : Long = 0,
