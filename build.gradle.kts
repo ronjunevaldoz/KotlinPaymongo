@@ -1,3 +1,5 @@
+import java.util.*
+
 val ktorVersion: String by project
 val serializationVersion: String by project
 
@@ -91,8 +93,36 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
     from(dokkaOutputDir)
 }
-val ossrhUsername : String? = extra["ossrhUsername"] as String?
-val ossrhPassword : String? = extra["ossrhPassword"] as String?
+
+
+val properties = Properties().apply {
+    load(rootProject.file("secret.properties").reader())
+}
+
+// <OSSRH jira account username>
+val ossrhUsername = properties["ossrhUsername"] as String?
+// <OSSRH jira account password>
+val ossrhPassword  = properties["ossrhPassword"] as String?
+// <your-key-id-(last 8 character of your key)>
+val signingKeyId = properties["signing.keyId"] as String?
+// passphrase
+val signingPassword = properties["signing.password"] as String?
+// gpg --export-secret-keys <last 8 character of your key> | base64
+val signingKey = properties["signing.secretKey"] as String?
+// gpg --edit-key F8F55D3E
+// gpg --list-signatures
+// gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+// or raw base64 secretkey
+// gpg --export-secret-keys <last 8 character of your key> | base64
+// https://stackoverflow.com/a/39573795/2801777
+
+signing {
+    useInMemoryPgpKeys(
+        signingKeyId,
+        signingKey,
+        signingPassword
+    )
+}
 
 publishing {
     publications {
