@@ -78,6 +78,80 @@ class ReceivedWebhookEventTest {
     }
 
     @Test
+    fun `Payment 2 paid should not throw an exception`() {
+        val paidPaymentEventJsonString = "{\n" +
+                "    \"data\": {\n" +
+                "        \"id\": \"evt_jq8syswGKcyBoepP7inucLV7\",\n" +
+                "        \"type\": \"event\",\n" +
+                "        \"attributes\": {\n" +
+                "            \"type\": \"payment.paid\",\n" +
+                "            \"livemode\": false,\n" +
+                "            \"data\": {\n" +
+                "                \"id\": \"pay_73Dma4hhk1T4tdvbKZ4tUNEh\",\n" +
+                "                \"type\": \"payment\",\n" +
+                "                \"attributes\": {\n" +
+                "                    \"access_url\": null,\n" +
+                "                    \"amount\": 150000,\n" +
+                "                    \"balance_transaction_id\": \"bal_txn_FXrXTq48A1pp1wYSHLMmHoFj\",\n" +
+                "                    \"billing\": {\n" +
+                "                        \"address\": {\n" +
+                "                            \"city\": \"\",\n" +
+                "                            \"country\": \"\",\n" +
+                "                            \"line1\": \"\",\n" +
+                "                            \"line2\": \"\",\n" +
+                "                            \"postal_code\": \"\",\n" +
+                "                            \"state\": \"\"\n" +
+                "                        },\n" +
+                "                        \"email\": \"ronjune.lopez@gmail.com\",\n" +
+                "                        \"name\": \"Ron June Valdoz\",\n" +
+                "                        \"phone\": \"+639066835308\"\n" +
+                "                    },\n" +
+                "                    \"currency\": \"PHP\",\n" +
+                "                    \"description\": \"To get access to GoLearn's Basic for 3 Month and enroll in the BS Nursing course.\",\n" +
+                "                    \"disputed\": false,\n" +
+                "                    \"external_reference_number\": null,\n" +
+                "                    \"fee\": 3300,\n" +
+                "                    \"livemode\": false,\n" +
+                "                    \"net_amount\": 146700,\n" +
+                "                    \"origin\": \"api\",\n" +
+                "                    \"payment_intent_id\": \"pi_RWP6m5UUvQGcgb8yP5eyiVzC\",\n" +
+                "                    \"payout\": null,\n" +
+                "                    \"source\": {\n" +
+                "                        \"id\": \"src_RWi3h48A1MeySxJo4YhaUu5D\",\n" +
+                "                        \"type\": \"grab_pay\"\n" +
+                "                    },\n" +
+                "                    \"statement_descriptor\": \"GoLearn\",\n" +
+                "                    \"status\": \"paid\",\n" +
+                "                    \"tax_amount\": null,\n" +
+                "                    \"metadata\": {\n" +
+                "                        \"subscriptionId\": \"644b5a088846b11cd566ae85\",\n" +
+                "                        \"agent\": \"GoLearn\",\n" +
+                "                        \"userId\": \"644b5a078846b11cd566ae83\"\n" +
+                "                    },\n" +
+                "                    \"refunds\": [],\n" +
+                "                    \"taxes\": [],\n" +
+                "                    \"available_at\": 1683104400,\n" +
+                "                    \"created_at\": 1682660059,\n" +
+                "                    \"credited_at\": 1683709200,\n" +
+                "                    \"paid_at\": 1682660059,\n" +
+                "                    \"updated_at\": 1682660059\n" +
+                "                }\n" +
+                "            },\n" +
+                "            \"previous_data\": {},\n" +
+                "            \"created_at\": 1682660060,\n" +
+                "            \"updated_at\": 1682660060\n" +
+                "        }\n" +
+                "    }\n" +
+                "}"
+        try {
+            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
+            assert(true)
+        } catch (e: Exception) {
+            assert(false)
+        }
+    }
+
+    @Test
     fun `Source chargeable should not throw an exception`() {
         val sourceEventJsonString = "{\n" +
                 "    \"data\": {\n" +
