@@ -21,11 +21,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Gradle
-        uses: gradle/setup-gradle@v1
-        with:
-          gradle-version: '7.2'
-          java-version: '11'
-
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       - name: Build
         run: |
           cp secret.properties.sample secret.properties
@@ -38,11 +34,7 @@ jobs:
 
     steps:
       - name: Set up Gradle
-        uses: gradle/setup-gradle@v1
-        with:
-          gradle-version: '7.2'
-          java-version: '11'
-
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       - name: Publish to Maven repository
         run: |
           echo "ossrhUsername=$MAVEN_USERNAME" >> secret.properties
