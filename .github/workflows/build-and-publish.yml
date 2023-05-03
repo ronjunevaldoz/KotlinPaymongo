@@ -18,8 +18,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
+        uses: actions/checkout@v3
       - name: Set up Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       - name: Build
@@ -33,6 +32,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Set up Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       - name: Publish to Maven repository
