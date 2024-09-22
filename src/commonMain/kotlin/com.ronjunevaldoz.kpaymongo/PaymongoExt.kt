@@ -35,7 +35,7 @@ suspend fun IPaymongo.createSource(input: PaymongoSourceBuilder.() -> Unit): Sou
 }
 
 suspend fun IPaymongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
-    return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput{
+    return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput {
         apply(input)
     })
 }

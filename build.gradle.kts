@@ -48,6 +48,12 @@ kotlin {
             dependencies {
                 // Ktor client
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+                implementation("io.ktor:ktor-client-auth:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                // Ktor serialization
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 // Kotlin serialization
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
@@ -58,17 +64,22 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-                implementation("io.ktor:ktor-client-auth:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                // Ktor serialization
-                implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$serializationVersion")
-            }
-        }
+//        iosMain.dependencies {
+//            implementation(libs.ktor.client.darwin)
+//        }
+//
+//        androidMain.dependencies {
+//            implementation(libs.ktor.client.okhttp)
+//        }
+//
+//        jvmMain.dependencies {
+//            implementation(libs.ktor.client.cio)
+//            implementation(libs.kotlinx.coroutine.swing)
+//        }
+//
+//        wasmJsMain.dependencies {
+//            implementation(libs.ktor.client.js)
+//        }
         val jvmTest by getting
 //        val jsMain by getting
 //        val jsTest by getting

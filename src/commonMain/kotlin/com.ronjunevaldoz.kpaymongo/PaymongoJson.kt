@@ -14,7 +14,7 @@ val ResourceModule = SerializersModule {
     }
 }
 val PaymongoJson = Json {
-    serializersModule = ResourceModule
+    serializersModule = com.ronjunevaldoz.kpaymongo.ResourceModule
     prettyPrint = true
     ignoreUnknownKeys = true
     isLenient = true
