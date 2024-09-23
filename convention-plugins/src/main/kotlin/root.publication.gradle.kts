@@ -3,8 +3,8 @@ plugins {
 }
 
 allprojects {
-    group = "org.jetbrains.kotlinx.multiplatform-library-template"
-    version = "0.0.1"
+    group = "io.github.ronjunevaldoz"
+    version = "1.0.0-SNAPSHOT"
 }
 
 nexusPublishing {

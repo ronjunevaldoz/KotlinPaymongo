@@ -15,6 +15,8 @@ ktor = "3.0.0-rc-1"
 logback = "1.5.6"
 # Stately concurrent collections for WASM and JS
 statelyConcurrentCollectionsWasmJs = "2.0.7"
+nexus-publish = "2.0.0"
+dokka = "1.9.20"
 
 [libraries]
 # Kotlin libraries
@@ -42,6 +44,9 @@ stately-concurrent-collections-wasm-js = { module = "co.touchlab:stately-concurr
 
 # Canard logging library
 #canard = { module = "org.kodein.log:canard", version.ref = "canard" }
+# Publishing
+nexus-publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
+dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
 [bundles]
 # Common bundles for kotlinx libraries
@@ -73,3 +78,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 # Kotlin Serialization plugin
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
