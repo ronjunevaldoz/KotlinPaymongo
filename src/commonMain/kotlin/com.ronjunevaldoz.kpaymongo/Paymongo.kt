@@ -100,7 +100,7 @@ class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFa
 
     class Config(
         var secretKey: String,
-        var userAgent: String,
+        var userAgent: String = "Paymongo Kotlin Client",
         var json: Json = PaymongoJson
     )
 }

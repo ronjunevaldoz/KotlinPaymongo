@@ -1,15 +1,18 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.*
 
-val ktorVersion: String by project
-val serializationVersion: String by project
-
 plugins {
-    kotlin("multiplatform") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version "1.6.10"
 }
+
+
+val ktorVersion: String by project
+val serializationVersion: String by project
 
 group = "io.github.ronjunevaldoz"
 version = "1.0.0-SNAPSHOT"
@@ -19,29 +22,18 @@ repositories {
 }
 
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
+    jvm()
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
-//    js(LEGACY) {
-//        browser {
-//            commonWebpackConfig {
-//                cssSupport.enabled = true
-//            }
-//        }
-//    }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    linuxX64()
 
     sourceSets {
         val commonMain by getting {
@@ -64,22 +56,22 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
-//        iosMain.dependencies {
-//            implementation(libs.ktor.client.darwin)
-//        }
-//
-//        androidMain.dependencies {
-//            implementation(libs.ktor.client.okhttp)
-//        }
-//
-//        jvmMain.dependencies {
-//            implementation(libs.ktor.client.cio)
-//            implementation(libs.kotlinx.coroutine.swing)
-//        }
-//
-//        wasmJsMain.dependencies {
-//            implementation(libs.ktor.client.js)
-//        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.cio)
+            implementation(libs.kotlinx.coroutine.swing)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
         val jvmTest by getting
 //        val jsMain by getting
 //        val jsTest by getting
@@ -87,6 +79,16 @@ kotlin {
 //        val nativeTest by getting
     }
 }
+
+
+android {
+    namespace = "com.ronjunevaldoz.paymongo"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+}
+
 
 
 val dokkaOutputDir = "$buildDir/dokka"
