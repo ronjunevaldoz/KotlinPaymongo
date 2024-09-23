@@ -37,3 +37,4 @@ build/
 Thumbs.db
 
 secret.properties
+/.kotlin/
