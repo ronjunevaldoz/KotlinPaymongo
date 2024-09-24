@@ -20,7 +20,7 @@ Paymongo client for kotlin
 - [x] Attach payment intent
 - [x] Get webhook
 - [x] Get webhooks
-- [ ] Enable/Disable webook
+- [ ] Enable/Disable webhook
 
 ## API Reference
 https://developers.paymongo.com/reference
@@ -41,7 +41,7 @@ val source = client.createSource {
    billing = Billing(
       name = "Full name",
       phone = "09xxxxxxxxx",
-      email = "sample@email.com,
+      email = "sample@email.com",
       address = Address(
           line1 = "",
           line2 = "",

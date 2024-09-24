@@ -9,6 +9,7 @@ android-targetSdk = "34"
 kotlin = "2.0.20-Beta2"
 kotlinxSerialization = "1.7.2"
 kotlinxCoroutine = "1.9.0-RC"
+compose-plugin = "1.7.0-alpha03"
 # Ktor libraries
 ktor = "3.0.0-rc-1"
 # Logging library
@@ -17,8 +18,11 @@ logback = "1.5.6"
 statelyConcurrentCollectionsWasmJs = "2.0.7"
 nexus-publish = "2.0.0"
 dokka = "1.9.20"
+androidx-activityCompose = "1.9.2"
 
 [libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+
 # Kotlin libraries
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -35,6 +39,7 @@ ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # Logging library
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -66,8 +71,8 @@ ktor-client = [
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 # Android library plugin
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-## Jetbrains Compose plugin
-#jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+# Jetbrains Compose plugin
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 # Compose compiler plugin
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 # Kotlin JVM plugin

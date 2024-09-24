@@ -1,7 +1,7 @@
-package com.ronjunevaldoz.kpaymongo.util
+package io.github.ronjunevaldoz.kpaymongo.util
 
-import com.ronjunevaldoz.kpaymongo.Paymongo.Config
-import com.ronjunevaldoz.kpaymongo.PaymongoJson
+import io.github.ronjunevaldoz.kpaymongo.Paymongo.Config
+import io.github.ronjunevaldoz.kpaymongo.PaymongoJson
 import com.ronjunevaldoz.kpaymongo.exception.PayMongoException
 import com.ronjunevaldoz.kpaymongo.models.error.PayMongoErrorResponse
 import io.ktor.client.HttpClient
@@ -32,7 +32,6 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.InternalAPI
 import io.ktor.utils.io.readUTF8Line
-import kotlinx.serialization.decodeFromString
 
 object PaymongoClientFactory {
     private const val API_V1 = "https://api.paymongo.com/v1"

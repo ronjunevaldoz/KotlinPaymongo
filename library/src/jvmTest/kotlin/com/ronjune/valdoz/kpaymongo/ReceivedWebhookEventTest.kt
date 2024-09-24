@@ -1,10 +1,9 @@
 package com.ronjune.valdoz.kpaymongo
 
-import com.ronjunevaldoz.kpaymongo.PaymongoJson
+import io.github.ronjunevaldoz.kpaymongo.PaymongoJson
 import com.ronjunevaldoz.kpaymongo.models.resource.CheckoutSessionResponse
 import com.ronjunevaldoz.kpaymongo.models.resource.CreateCheckoutSessionInput
 import com.ronjunevaldoz.kpaymongo.models.resource.ReceiveWebhookEvent
-import kotlinx.serialization.decodeFromString
 import kotlin.test.Test
 
 class ReceivedWebhookEventTest {

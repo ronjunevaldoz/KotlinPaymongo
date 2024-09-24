@@ -1,15 +1,16 @@
-package com.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.kpaymongo
 
+import com.ronjunevaldoz.kpaymongo.IPaymongo
 import com.ronjunevaldoz.kpaymongo.models.resource.*
-import com.ronjunevaldoz.kpaymongo.util.PaymongoClientFactory
+import io.github.ronjunevaldoz.kpaymongo.util.PaymongoClientFactory
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.util.*
 import kotlinx.serialization.json.Json
 
 
-class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFactory.client(config)) : IPaymongo {
+class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFactory.client(config)) :
+    IPaymongo {
 
     override suspend fun createSource(input: CreateSourceInput): SourceResponse {
         return client.post("/sources") {

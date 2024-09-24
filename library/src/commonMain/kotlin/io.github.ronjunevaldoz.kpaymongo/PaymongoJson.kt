@@ -1,4 +1,4 @@
-package com.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.kpaymongo
 
 import com.ronjunevaldoz.kpaymongo.models.resource.*
 import kotlinx.serialization.json.Json
@@ -14,7 +14,7 @@ val ResourceModule = SerializersModule {
     }
 }
 val PaymongoJson = Json {
-    serializersModule = com.ronjunevaldoz.kpaymongo.ResourceModule
+    serializersModule = ResourceModule
     prettyPrint = true
     ignoreUnknownKeys = true
     isLenient = true
