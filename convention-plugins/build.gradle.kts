@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.nexus.publish)
+    implementation(libs.gradleMavenPublishPlugin)
     implementation(libs.dokka.gradle)
 }

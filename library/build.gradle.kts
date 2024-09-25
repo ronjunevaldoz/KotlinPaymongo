@@ -7,10 +7,12 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    id("module.publication")
+    id("root.publication")
 }
 
 kotlin {
+    withSourcesJar(publish = false)
+
     jvm()
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {

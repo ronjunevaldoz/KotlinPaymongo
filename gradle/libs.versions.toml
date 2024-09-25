@@ -16,7 +16,7 @@ ktor = "3.0.0-rc-1"
 logback = "1.5.6"
 # Stately concurrent collections for WASM and JS
 statelyConcurrentCollectionsWasmJs = "2.0.7"
-nexus-publish = "2.0.0"
+vanniktechPublish = "0.29.0"
 dokka = "1.9.20"
 androidx-activityCompose = "1.9.2"
 
@@ -50,7 +50,8 @@ stately-concurrent-collections-wasm-js = { module = "co.touchlab:stately-concurr
 # Canard logging library
 #canard = { module = "org.kodein.log:canard", version.ref = "canard" }
 # Publishing
-nexus-publish = { module = "io.github.gradle-nexus.publish-plugin:io.github.gradle-nexus.publish-plugin.gradle.plugin", version.ref = "nexus-publish" }
+#nexus-publish = { module = "com.vanniktech.maven.publish", version.ref = "nexus-publish" }
+gradleMavenPublishPlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktechPublish" }
 dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
 [bundles]
@@ -84,3 +85,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 # Kotlin Serialization plugin
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechPublish" }

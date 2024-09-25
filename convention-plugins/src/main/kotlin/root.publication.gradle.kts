@@ -1,5 +1,8 @@
+import gradle.kotlin.dsl.accessors._8edd1b0c1852f0ac869e9c414c462ba9.mavenPublishing
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
-    id("io.github.gradle-nexus.publish-plugin")
+    id("com.vanniktech.maven.publish")
 }
 
 allprojects {
@@ -7,13 +10,42 @@ allprojects {
     version = "1.0.0-SNAPSHOT"
 }
 
-nexusPublishing {
-    // Configure maven central repository
-    // https://github.com/gradle-nexus/publish-plugin#publishing-to-maven-central-via-sonatype-ossrh
-    repositories {
-        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.ronjunevaldoz",
+        artifactId = "paymongo-kotlin",
+        version = "1.0.0-SNAPSHOT"
+    )
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.S01)
+    // Enable GPG signing for all publications
+    signAllPublications()
+
+    pom {
+        name.set("KotlinPaymongo")
+        description.set("Paymongo Kotlin Client")
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+        url.set("https://ronjunevaldoz.github.io/KotlinPaymongo")
+        issueManagement {
+            system.set("Github")
+            url.set("https://github.com/ronjunevaldoz/KotlinPaymongo/issues")
+        }
+        scm {
+            connection.set("https://github.com/ronjunevaldoz/KotlinPaymongo.git")
+            url.set("https://github.com/ronjunevaldoz/KotlinPaymongo")
+        }
+        developers {
+            developer {
+                name.set("Ron June Valdoz")
+                email.set("ronjune.lopez@gmail.com")
+                organization.set("Ron June Valdoz") // TODO update real org
+                organizationUrl.set("https://github.com/ronjunevaldoz") // TODO update real org url
+            }
         }
     }
 }
