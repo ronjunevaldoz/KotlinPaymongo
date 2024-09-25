@@ -7,19 +7,15 @@ plugins {
 
 allprojects {
     group = "io.github.ronjunevaldoz"
-    version = "1.0.0-SNAPSHOT"
+    version = "1.0.0"
 }
 
 mavenPublishing {
     coordinates(
         groupId = "io.github.ronjunevaldoz",
         artifactId = "paymongo-kotlin",
-        version = "1.0.0-SNAPSHOT"
+        version = "1.0.0"
     )
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.S01)
-    // Enable GPG signing for all publications
-    signAllPublications()
 
     pom {
         name.set("KotlinPaymongo")
@@ -41,11 +37,17 @@ mavenPublishing {
         }
         developers {
             developer {
+                id.set("ronjunevaldoz")
                 name.set("Ron June Valdoz")
+                url.set("https://github.com/ronjunevaldoz/")
                 email.set("ronjune.lopez@gmail.com")
                 organization.set("Ron June Valdoz") // TODO update real org
                 organizationUrl.set("https://github.com/ronjunevaldoz") // TODO update real org url
             }
         }
     }
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
