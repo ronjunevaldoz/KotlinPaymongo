@@ -2,10 +2,10 @@
 Paymongo client for kotlin
 
 ![Build And Publish](https://github.com/ronjunevaldoz/KotlinPaymongo/actions/workflows/publish.yml/badge.svg)
-![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.ronjunevaldoz/payomongo-kotlin?server=https%3A%2F%2Fs01.oss.sonatype.org)
-[![Kotlin](https://img.shields.io/badge/kotlin-2.0.20-Beta2-blue.svg?logo=kotlin)](http://kotlinlang.org)
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.ronjunevaldoz/paymongo-kotlin)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.0.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 ![GitHub](https://img.shields.io/github/license/ronjunevaldoz/KotlinPaymongo)
- 
+
 ## Feature
 
 - [x] [Create Source](README.md#Usage) - DSL supported
@@ -28,7 +28,7 @@ https://developers.paymongo.com/reference
 ## Usage
 ```kotlin
 val config = Paymongo.DefaultConfig.apply{
-    secretKey = "sk_123456"
+   secretKey = "sk_123456"
 }
 val client = Paymongo(config)
 
@@ -43,12 +43,12 @@ val source = client.createSource {
       phone = "09xxxxxxxxx",
       email = "sample@email.com",
       address = Address(
-          line1 = "",
-          line2 = "",
-          state = "",
-          postalCode = "",
-          city = "",
-          country = ""
+         line1 = "",
+         line2 = "",
+         state = "",
+         postalCode = "",
+         city = "",
+         country = ""
       )
    )
 }
@@ -57,70 +57,72 @@ val source = client.createSource {
 ## Ktor Webhook Integration
 ```kotlin 
 // http://localhost/paymongo/events
-fun Route.payMongo() { 
-    route("paymongo") {
-        post("events") {
-            processWebhookEvent(call)
-        }
-    }
+fun Route.payMongo() {
+   route("paymongo") {
+      post("events") {
+         processWebhookEvent(call)
+      }
+   }
 }
 // sample webhook process
 // see instruction how to secure webhook 
 // https://developers.paymongo.com/docs/creating-webhook#3-securing-a-webhook-optional-but-highly-recommended
 suspend fun processWebhookEvent(call: ApplicationCall) {
-    val jsonString = call.receiveText()
-    val webhookEvent = AppJson.decodeFromString<ReceiveWebhookEvent>(jsonString)
-    val signature = call.request.header("Paymongo-Signature")
-    if (signature == null) {
-        call.respond(HttpStatusCode.Unauthorized, "Missing Paymongo-Signature")
-    } else {
-        // signature verification
-        val sign = signature.split(",")
-        val t = sign[0].replace("t=", "").toLong() // timestamp
-        val te = sign[1].replace("te=", "") // test mode
-        val li = sign[2].replace("li=", "") // live mode
-        val attributes = webhookEvent.data.attributes
-        val liveMode = attributes.liveMode
-        val signatureFromPayload = "$t.$jsonString"
-        val signatureFromHeader = if (liveMode) {
-            li
-        } else {
-            te
-        }
-        val webhookSecretKey = "" // created webhook secret key
-        // hash signature
-        val hashedSignature = hash(content = signatureFromPayload, key = webhookSecretKey, algorithm = "HmacSHA256")
-        // check for a matching signature
-        if (hashedSignature == signatureFromHeader) {
-            // process event response here
-            when (val data = attributes.data) {
-                is Source -> {}
-                is Payment -> {}
-                else -> {}
-            }
-            call.respond(HttpStatusCode.OK, "Webhook OK")
-        } else {
-            call.respond(HttpStatusCode.Unauthorized, "Invalid signature")
-        }
-    }
+   val jsonString = call.receiveText()
+   val webhookEvent = AppJson.decodeFromString<ReceiveWebhookEvent>(jsonString)
+   val signature = call.request.header("Paymongo-Signature")
+   if (signature == null) {
+      call.respond(HttpStatusCode.Unauthorized, "Missing Paymongo-Signature")
+   } else {
+      // signature verification
+      val sign = signature.split(",")
+      val t = sign[0].replace("t=", "").toLong() // timestamp
+      val te = sign[1].replace("te=", "") // test mode
+      val li = sign[2].replace("li=", "") // live mode
+      val attributes = webhookEvent.data.attributes
+      val liveMode = attributes.liveMode
+      val signatureFromPayload = "$t.$jsonString"
+      val signatureFromHeader = if (liveMode) {
+         li
+      } else {
+         te
+      }
+      val webhookSecretKey = "" // created webhook secret key
+      // hash signature
+      val hashedSignature = hash(content = signatureFromPayload, key = webhookSecretKey, algorithm = "HmacSHA256")
+      // check for a matching signature
+      if (hashedSignature == signatureFromHeader) {
+         // process event response here
+         when (val data = attributes.data) {
+            is Source -> {}
+            is Payment -> {}
+            else -> {}
+         }
+         call.respond(HttpStatusCode.OK, "Webhook OK")
+      } else {
+         call.respond(HttpStatusCode.Unauthorized, "Invalid signature")
+      }
+   }
 }
 
 ```
 
 ## Installation
 ```kotlin
-repositories { 
-    mavenCentral()
-    maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+repositories {
+   mavenCentral()
 }
 ```
 
-## Dependency
+## Common Dependency
 ```kotlin
-implementation("io.github.ronjunevaldoz:kpaymongo-jvm:1.0.0-SNAPSHOT"){
-  isChanging = true // this will allow to get all latest changes
-}
+implementation("io.github.ronjunevaldoz:paymongo-kotlin:1.0.0")
 ```
+## Platform specific dependency (jvm, ios, android, wasmjs)
+```kotlin
+implementation("io.github.ronjunevaldoz:paymongo-kotlin-<PLATFORM>:1.0.0")
+```
+
 
 ## How do I deploy it to Maven Central?
 
@@ -136,7 +138,7 @@ The most part of the job is already automated for you. However, deployment to Ma
  gpg --send-keys --keyserver keyserver.ubuntu.com "<your key id>"
  ```
 1. - [ ] Now you should create secrets available to your GitHub Actions
-    1. via `gh` command
+   1. via `gh` command
 
  ```bash
  gh secret set SIGNING_KEY -a actions --body "$(gpg --export-secret-key --armor "<KEY_ID>")"
@@ -147,4 +149,4 @@ The most part of the job is already automated for you. However, deployment to Ma
  ```
 
 1- [ ] Deploy command
-`./gradlew publishAndReleaseToMavenCentral --no-configuration-cache`          
+`./gradlew publishAndReleaseToMavenCentral --no-configuration-cache`

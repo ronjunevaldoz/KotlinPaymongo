@@ -13,9 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade to multiplatform with WASMJS
 
-### Fix
-- Fix wrong query navigation keys
-- Fix account activation not working
-- Fix svg not supported on android change premium.svg to xml
-
 [unreleased]: https://github.com/ronjunevaldoz/KotlinPaymongo/compare/v1.0.0...HEAD
