@@ -1,6 +1,6 @@
-package com.ronjunevaldoz.kpaymongo.models.resource
+package io.github.ronjunevaldoz.paymongo.models.resource
 
-import com.ronjunevaldoz.kpaymongo.models.serializers.Request3DSecureSerializer
+import io.github.ronjunevaldoz.paymongo.models.serializers.Request3DSecureSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

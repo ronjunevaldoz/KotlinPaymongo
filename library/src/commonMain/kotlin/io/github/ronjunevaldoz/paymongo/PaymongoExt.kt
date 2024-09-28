@@ -1,7 +1,7 @@
-package com.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.paymongo
 
-import com.ronjunevaldoz.kpaymongo.models.Billing
-import com.ronjunevaldoz.kpaymongo.models.resource.*
+import io.github.ronjunevaldoz.paymongo.models.Billing
+import io.github.ronjunevaldoz.paymongo.models.resource.*
 import kotlin.properties.Delegates
 
 
@@ -28,13 +28,13 @@ class PaymongoSourceBuilder {
     )
 }
 
-suspend fun IPaymongo.createSource(input: PaymongoSourceBuilder.() -> Unit): SourceResponse {
-    val builder = PaymongoSourceBuilder()
+suspend fun io.github.ronjunevaldoz.paymongo.IPaymongo.createSource(input: io.github.ronjunevaldoz.paymongo.PaymongoSourceBuilder.() -> Unit): SourceResponse {
+    val builder = io.github.ronjunevaldoz.paymongo.PaymongoSourceBuilder()
     input.invoke(builder)
     return createSource(builder.build())
 }
 
-suspend fun IPaymongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
+suspend fun io.github.ronjunevaldoz.paymongo.IPaymongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
     return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput {
         apply(input)
     })

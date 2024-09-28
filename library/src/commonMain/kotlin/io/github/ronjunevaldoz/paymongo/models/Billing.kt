@@ -1,4 +1,4 @@
-package com.ronjunevaldoz.kpaymongo.models
+package io.github.ronjunevaldoz.paymongo.models
 import kotlinx.serialization.Serializable
 
 @Serializable

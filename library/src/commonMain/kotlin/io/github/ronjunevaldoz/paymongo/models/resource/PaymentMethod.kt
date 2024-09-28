@@ -1,7 +1,7 @@
-package com.ronjunevaldoz.kpaymongo.models.resource
+package io.github.ronjunevaldoz.paymongo.models.resource
 
-import com.ronjunevaldoz.kpaymongo.models.Address
-import com.ronjunevaldoz.kpaymongo.models.Billing
+import io.github.ronjunevaldoz.paymongo.models.Address
+import io.github.ronjunevaldoz.paymongo.models.Billing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

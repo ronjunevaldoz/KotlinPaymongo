@@ -1,7 +1,7 @@
-package com.ronjunevaldoz.kpaymongo.models.resource
+package io.github.ronjunevaldoz.paymongo.models.resource
 
-import com.ronjunevaldoz.kpaymongo.models.serializers.WebhookEventSerializer
-import com.ronjunevaldoz.kpaymongo.models.serializers.WebhookStatusSerializer
+import io.github.ronjunevaldoz.paymongo.models.serializers.WebhookEventSerializer
+import io.github.ronjunevaldoz.paymongo.models.serializers.WebhookStatusSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

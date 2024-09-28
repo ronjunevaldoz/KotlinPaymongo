@@ -1,6 +1,6 @@
-package com.ronjunevaldoz.kpaymongo.models.resource
+package io.github.ronjunevaldoz.paymongo.models.resource
 
-import com.ronjunevaldoz.kpaymongo.models.serializers.PaymentStatusSerializer
+import io.github.ronjunevaldoz.paymongo.models.serializers.PaymentStatusSerializer
 import kotlinx.serialization.Serializable
 
 @Serializable(with = PaymentStatusSerializer::class)

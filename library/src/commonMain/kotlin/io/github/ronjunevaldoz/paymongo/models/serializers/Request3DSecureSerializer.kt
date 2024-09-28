@@ -1,6 +1,6 @@
-package com.ronjunevaldoz.kpaymongo.models.serializers
+package io.github.ronjunevaldoz.paymongo.models.serializers
 
-import com.ronjunevaldoz.kpaymongo.models.resource.PaymentIntent
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntent
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

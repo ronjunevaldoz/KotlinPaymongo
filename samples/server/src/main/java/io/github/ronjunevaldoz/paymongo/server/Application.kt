@@ -1,6 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.server
 
-import io.github.ronjunevaldoz.kpaymongo.Paymongo
+import io.github.ronjunevaldoz.paymongo.Paymongo
 
 suspend fun main() {
     val paymongo = Paymongo(Paymongo.Config(

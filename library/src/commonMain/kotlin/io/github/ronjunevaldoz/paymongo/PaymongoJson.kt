@@ -1,6 +1,6 @@
-package io.github.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.paymongo
 
-import com.ronjunevaldoz.kpaymongo.models.resource.*
+import io.github.ronjunevaldoz.paymongo.models.resource.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic

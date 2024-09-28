@@ -1,4 +1,4 @@
-package com.ronjunevaldoz.kpaymongo.models.resource
+package io.github.ronjunevaldoz.paymongo.models.resource
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.Polymorphic

@@ -1,8 +1,7 @@
-package io.github.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.paymongo
 
-import com.ronjunevaldoz.kpaymongo.IPaymongo
-import com.ronjunevaldoz.kpaymongo.models.resource.*
-import io.github.ronjunevaldoz.kpaymongo.util.PaymongoClientFactory
+import io.github.ronjunevaldoz.paymongo.models.resource.*
+import io.github.ronjunevaldoz.paymongo.util.PaymongoClientFactory
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

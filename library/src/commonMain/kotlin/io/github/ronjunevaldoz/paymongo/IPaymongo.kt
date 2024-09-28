@@ -1,6 +1,6 @@
-package com.ronjunevaldoz.kpaymongo
+package io.github.ronjunevaldoz.paymongo
 
-import com.ronjunevaldoz.kpaymongo.models.resource.*
+import io.github.ronjunevaldoz.paymongo.models.resource.*
 
 
 /**

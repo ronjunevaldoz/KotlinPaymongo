@@ -1,9 +1,9 @@
-package io.github.ronjunevaldoz.kpaymongo.util
+package io.github.ronjunevaldoz.paymongo.util
 
-import io.github.ronjunevaldoz.kpaymongo.Paymongo.Config
-import io.github.ronjunevaldoz.kpaymongo.PaymongoJson
-import com.ronjunevaldoz.kpaymongo.exception.PayMongoException
-import com.ronjunevaldoz.kpaymongo.models.error.PayMongoErrorResponse
+import io.github.ronjunevaldoz.paymongo.Paymongo.Config
+import io.github.ronjunevaldoz.paymongo.PaymongoJson
+import io.github.ronjunevaldoz.paymongo.exception.PayMongoException
+import io.github.ronjunevaldoz.paymongo.models.error.PayMongoErrorResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
