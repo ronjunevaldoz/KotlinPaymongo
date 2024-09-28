@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.ronjunevaldoz.kpaymongo.Paymongo
+import io.github.ronjunevaldoz.paymongo.Paymongo
 import kotlinx.coroutines.launch
 
 val client = Paymongo(
