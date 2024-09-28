@@ -1,9 +1,9 @@
 package io.github.ronjunevaldoz.paymongo.server
 
-import io.github.ronjunevaldoz.paymongo.Paymongo
+import io.github.ronjunevaldoz.paymongo.PayMongo
 
 suspend fun main() {
-    val paymongo = Paymongo(Paymongo.Config(
+    val paymongo = PayMongo(PayMongo.Config(
         secretKey = "sk_test_xxxxxxxx"
     ))
     runCatching {

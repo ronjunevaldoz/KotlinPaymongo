@@ -1,6 +1,6 @@
 package com.ronjune.valdoz.kpaymongo
 
-import io.github.ronjunevaldoz.paymongo.PaymongoJson
+import io.github.ronjunevaldoz.paymongo.serialization.PayMongoJson
 import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionInput
 import io.github.ronjunevaldoz.paymongo.models.resource.ReceiveWebhookEvent
@@ -69,7 +69,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
+            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -143,7 +143,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
+            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -199,7 +199,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
+            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -256,7 +256,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
+            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -359,7 +359,7 @@ class ReceivedWebhookEventTest {
                 "  }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
+            PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -406,7 +406,7 @@ class ReceivedWebhookEventTest {
                 "  }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<CreateCheckoutSessionInput>(sourceEventJsonString)
+            PayMongoJson.decodeFromString<CreateCheckoutSessionInput>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
@@ -509,7 +509,7 @@ class ReceivedWebhookEventTest {
                 "  }\n" +
                 "}"
         try {
-            PaymongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
+            PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
             assert(true)
         } catch (e: Exception) {
             assert(false)
