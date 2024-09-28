@@ -13,11 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.ronjunevaldoz.paymongo.Paymongo
+import io.github.ronjunevaldoz.paymongo.PayMongo
 import kotlinx.coroutines.launch
 
-val client = Paymongo(
-    config = Paymongo.Config(
+val client = PayMongo(
+    config = PayMongo.Config(
         secretKey = "sk_test_xxxxxxxxxxxxxxxx"
     )
 )

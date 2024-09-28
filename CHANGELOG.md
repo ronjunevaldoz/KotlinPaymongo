@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.0-dev02]
+
+### Changed
+- Optimize deprecated content from http response
+- Refactor rename Paymongo to PayMongo
+
 ## [v1.0.0-dev01] 
 
 ### Changed
@@ -19,5 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade to multiplatform with WASMJS
 
-[unreleased]: https://github.com/ronjunevaldoz/KotlinPaymongo/compare/v1.0.0-dev01...HEAD
+[unreleased]: https://github.com/ronjunevaldoz/KotlinPaymongo/compare/v1.0.0-dev02...HEAD
+[v1.0.0-dev01]: https://github.com/ronjunevaldoz/KotlinPaymongo/compare/v1.0.0-dev01...v1.0.0-dev02
 [v1.0.0]: https://github.com/ronjunevaldoz/KotlinPaymongo/compare/v1.0.0...v1.0.0-dev01

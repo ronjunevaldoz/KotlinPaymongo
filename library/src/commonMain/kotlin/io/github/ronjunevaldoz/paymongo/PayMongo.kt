@@ -1,15 +1,36 @@
 package io.github.ronjunevaldoz.paymongo
 
-import io.github.ronjunevaldoz.paymongo.models.resource.*
-import io.github.ronjunevaldoz.paymongo.util.PaymongoClientFactory
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.github.ronjunevaldoz.paymongo.models.resource.AttachPaymentIntentInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentIntentInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.WebhookResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.WebhooksResponse
+import io.github.ronjunevaldoz.paymongo.serialization.PayMongoJson
+import io.github.ronjunevaldoz.paymongo.util.PayMongoClientFactory
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.put
+import io.ktor.client.request.setBody
 import kotlinx.serialization.json.Json
 
 
-class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFactory.client(config)) :
-    IPaymongo {
+class PayMongo(
+    config: Config,
+    private val client: HttpClient = PayMongoClientFactory.client(config)
+) :
+    IPayMongo {
 
     override suspend fun createSource(input: CreateSourceInput): SourceResponse {
         return client.post("/sources") {
@@ -39,7 +60,10 @@ class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFa
         }.body()
     }
 
-    override suspend fun getPaymentIntent(paymentIntentId: String, clientKey: String?): PaymentIntentResponse {
+    override suspend fun getPaymentIntent(
+        paymentIntentId: String,
+        clientKey: String?
+    ): PaymentIntentResponse {
         return client.get("/payment_intents/$paymentIntentId") {
             if (clientKey != null) {
                 parameter("client_key", clientKey)
@@ -78,7 +102,10 @@ class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFa
         return client.post("/webhooks/$webhookId/enable").body()
     }
 
-    override suspend fun updateWebhook(webhookId: String, input: CreateWebhookInput): WebhookResponse {
+    override suspend fun updateWebhook(
+        webhookId: String,
+        input: CreateWebhookInput
+    ): WebhookResponse {
         return client.put("/webhooks/$webhookId") {
             setBody(input)
         }.body()
@@ -101,6 +128,6 @@ class Paymongo(config: Config, private val client: HttpClient = PaymongoClientFa
     class Config(
         var secretKey: String,
         var userAgent: String = "Paymongo Kotlin Client",
-        var json: Json = PaymongoJson
+        var json: Json = PayMongoJson
     )
 }

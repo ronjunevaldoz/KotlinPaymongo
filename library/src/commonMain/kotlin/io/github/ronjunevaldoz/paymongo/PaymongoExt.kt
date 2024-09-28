@@ -5,7 +5,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.*
 import kotlin.properties.Delegates
 
 
-class PaymongoSourceBuilder {
+class PayMongoSourceBuilder {
     var type: PaymentType by Delegates.notNull()
     var amount: Int by Delegates.notNull()
     var redirectSuccess: String by Delegates.notNull()
@@ -28,13 +28,13 @@ class PaymongoSourceBuilder {
     )
 }
 
-suspend fun io.github.ronjunevaldoz.paymongo.IPaymongo.createSource(input: io.github.ronjunevaldoz.paymongo.PaymongoSourceBuilder.() -> Unit): SourceResponse {
-    val builder = io.github.ronjunevaldoz.paymongo.PaymongoSourceBuilder()
+suspend fun IPayMongo.createSource(input: PayMongoSourceBuilder.() -> Unit): SourceResponse {
+    val builder = PayMongoSourceBuilder()
     input.invoke(builder)
     return createSource(builder.build())
 }
 
-suspend fun io.github.ronjunevaldoz.paymongo.IPaymongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
+suspend fun IPayMongo.createPaymentMethod(input: CreatePaymentMethodInput.Builder.() -> Unit): PaymentMethodResponse {
     return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput {
         apply(input)
     })

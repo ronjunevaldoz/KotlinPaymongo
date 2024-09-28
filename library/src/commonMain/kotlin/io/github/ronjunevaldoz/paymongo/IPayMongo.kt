@@ -6,7 +6,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.*
 /**
  *  @see  (https://developers.paymongo.com/reference)
  */
-interface IPaymongo {
+interface IPayMongo {
     // source
     suspend fun createSource(input: CreateSourceInput): SourceResponse
 
