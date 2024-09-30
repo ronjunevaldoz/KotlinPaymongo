@@ -6,7 +6,7 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 # Kotlin and related libraries
-kotlin = "2.0.20-Beta2"
+kotlin = "2.0.20"
 kotlinxSerialization = "1.7.2"
 kotlinxCoroutine = "1.9.0-RC"
 compose-plugin = "1.7.0-alpha03"
