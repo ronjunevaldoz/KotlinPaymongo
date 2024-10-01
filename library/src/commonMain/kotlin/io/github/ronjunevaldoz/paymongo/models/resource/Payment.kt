@@ -1,6 +1,7 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
 import io.github.ronjunevaldoz.paymongo.models.Billing
+import io.github.ronjunevaldoz.paymongo.models.Tax
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -75,7 +76,7 @@ data class Payment(
         val taxAmount: Int? = null,
         val metadata: Map<String, String>? = null,
         val refunds : List<String> = emptyList(),
-        val taxes : List<String> = emptyList(),
+        val taxes : List<Tax> = emptyList(),
         val availableAt : Long = 0,
         @SerialName("created_at")
         val createdAt : Long = 0,

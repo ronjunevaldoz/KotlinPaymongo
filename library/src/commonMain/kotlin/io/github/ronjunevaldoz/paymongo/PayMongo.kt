@@ -10,7 +10,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
-import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
+import io.github.ronjunevaldoz.paymongo.models.resource.Link
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
@@ -127,27 +127,27 @@ class PayMongo(
         return client.post("/checkout_sessions/$checkoutSessionId/expire").body()
     }
 
-    override suspend fun createLink(input: CreateLinkInput): PaymentLink {
+    override suspend fun createLink(input: CreateLinkInput): Link {
         return client.post("/links") {
             setBody(input)
         }.body()
     }
 
-    override suspend fun getLink(id: String): PaymentLink {
+    override suspend fun getLink(id: String): Link {
         return client.get("/links/$id").body()
     }
 
-    override suspend fun getLinkByReference(referenceNumber: String): PaymentLink {
+    override suspend fun getLinkByReference(referenceNumber: String): Link {
         return client.get("/links") {
             parameter("reference_number", referenceNumber)
         }.body()
     }
 
-    override suspend fun archiveLink(id: String): PaymentLink {
+    override suspend fun archiveLink(id: String): Link {
         return client.post("/links/$id/archive").body()
     }
 
-    override suspend fun unarchiveLink(id: String): PaymentLink {
+    override suspend fun unarchiveLink(id: String): Link {
         return client.post("/links/$id/unarchive").body()
     }
 

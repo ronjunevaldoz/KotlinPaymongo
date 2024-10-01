@@ -10,7 +10,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
-import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
+import io.github.ronjunevaldoz.paymongo.models.resource.Link
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
@@ -82,9 +82,9 @@ interface IPayMongo {
      * Create a Link
      * https://developers.paymongo.com/reference/create-a-link
      */
-    suspend fun createLink(input: CreateLinkInput): PaymentLink
-    suspend fun getLink(id: String): PaymentLink
-    suspend fun getLinkByReference(referenceNumber: String): PaymentLink
-    suspend fun archiveLink(id: String): PaymentLink
-    suspend fun unarchiveLink(id: String): PaymentLink
+    suspend fun createLink(input: CreateLinkInput): Link
+    suspend fun getLink(id: String): Link
+    suspend fun getLinkByReference(referenceNumber: String): Link
+    suspend fun archiveLink(id: String): Link
+    suspend fun unarchiveLink(id: String): Link
 }

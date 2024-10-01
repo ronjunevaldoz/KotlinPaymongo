@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.ronjunevaldoz.paymongo.PayMongo
-import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
+import io.github.ronjunevaldoz.paymongo.models.resource.Link
 import kotlinx.coroutines.launch
 
 
@@ -29,7 +29,7 @@ fun App() {
     MaterialTheme {
         val scope = rememberCoroutineScope()
         var webhooks by remember { mutableStateOf<List<String>>(listOf()) }
-        var paymentLink by remember { mutableStateOf<PaymentLink?>(null) }
+        var link by remember { mutableStateOf<Link?>(null) }
         var secretKey by remember { mutableStateOf("sk_test_mqRYWTNuCR3pnKQvD48iJfng") }
         val client by remember(secretKey) {
             mutableStateOf(
@@ -73,7 +73,7 @@ fun App() {
                             client.getLink("link_WrnsXCjNtdv8wfRDwcs6APjy")
                         }.fold(
                             onSuccess = {
-                                paymentLink = it
+                                link = it
                             },
                             onFailure = {
                                 it.printStackTrace()
@@ -89,7 +89,7 @@ fun App() {
                             client.getLink("NJUgWgz")
                         }.fold(
                             onSuccess = {
-                                paymentLink = it
+                                link = it
                             },
                             onFailure = {
                                 it.printStackTrace()
@@ -99,8 +99,8 @@ fun App() {
                 }) {
                     Text("Get link by reference")
                 }
-                if (paymentLink != null) {
-                    Text("Payment Link: $paymentLink")
+                if (link != null) {
+                    Text("Payment Link: $link")
                 }
                 if (webhooks.isNotEmpty()) {
                     Text("Webhooks")
