@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Tax
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,33 +14,9 @@ data class CreateLinkInput(val data: Attributes) {
     )
 }
 
-/**
- * {
- *   "data": {
- *     "id": "link_WrnsXCjNtdv8wfRDwcs6APjy",
- *     "type": "link",
- *     "attributes": {
- *       "amount": 10000,
- *       "archived": false,
- *       "currency": "PHP",
- *       "description": "test payment for subscription",
- *       "livemode": false,
- *       "fee": 0,
- *       "remarks": "internal use descirption",
- *       "status": "unpaid",
- *       "tax_amount": null,
- *       "taxes": [],
- *       "checkout_url": "https://pm.link/org-GapS1xaVTL395KW4ucNFgpkw/test/NJUgWgz",
- *       "reference_number": "NJUgWgz",
- *       "created_at": 1727713221,
- *       "updated_at": 1727713221,
- *       "payments": []
- *     }
- *   }
- * }
- */
 @Serializable
-data class PaymentLink(
+@SerialName("link")
+data class Link(
     val data: Data
 ) : Resource() {
     @Serializable
@@ -61,7 +38,7 @@ data class PaymentLink(
             val status: String,
             @SerialName("tax_amount")
             val taxAmount: Int?,
-            val taxes: List<String>,
+            val taxes: List<Tax>,
             @SerialName("checkout_url")
             val checkoutUrl: String,
             @SerialName("reference_number")

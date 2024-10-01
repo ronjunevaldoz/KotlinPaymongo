@@ -16,6 +16,7 @@ object ResourceSerializer : JsonContentPolymorphicSerializer<Resource>(Resource:
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Resource> {
         val property = element.jsonObject
         return when {
+            "link" in property -> Link.serializer()
             "source" in property -> Source.serializer()
             "payment" in property -> Payment.serializer()
             "webhook" in property -> Webhook.serializer()
