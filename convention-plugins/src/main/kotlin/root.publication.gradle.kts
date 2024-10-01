@@ -7,14 +7,14 @@ plugins {
 
 allprojects {
     group = "io.github.ronjunevaldoz"
-    version = "1.0.2-dev01"
+    version = "1.0.2-dev03"
 }
 
 mavenPublishing {
     coordinates(
         groupId = "io.github.ronjunevaldoz",
         artifactId = "paymongo-kotlin",
-        version = "1.0.2-dev01"
+        version = "1.0.2-dev03"
     )
 
     pom {
