@@ -46,21 +46,30 @@ data class WebhookEvent(
         val updatedAt: Long,
     )
 
+    /**
+     * Supported hooks
+     * https://developers.paymongo.com/docs/webhooks
+     */
     @Serializable(with = WebhookEventSerializer::class)
     enum class Event(val value: String) {
         SourceChargeable("source.chargeable"),
         PaymentPaid("payment.paid"),
         PaymentFailed("payment.failed"),
+        LinkPaymentPaid("link.payment.paid"),
         PaymentRefunded("payment.refunded"),
-        PaymentRefundUpdated("payment.refund.updated");
+        PaymentRefundUpdated("payment.refund.updated"),
+        CheckoutSessionPaymentPaid("checkout_session.payment.paid")
+        ;
 
         companion object {
             val All = listOf(
                 SourceChargeable,
                 PaymentPaid,
                 PaymentFailed,
+                LinkPaymentPaid,
                 PaymentRefunded,
-                PaymentRefundUpdated
+                PaymentRefundUpdated,
+                CheckoutSessionPaymentPaid
             )
         }
     }
