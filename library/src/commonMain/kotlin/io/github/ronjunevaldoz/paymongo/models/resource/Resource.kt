@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.exception.ResourceNotSupported
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
@@ -12,15 +13,16 @@ import kotlinx.serialization.json.jsonObject
 sealed class Resource
 
 object ResourceSerializer : JsonContentPolymorphicSerializer<Resource>(Resource::class) {
-    override fun selectDeserializer(element: JsonElement) : DeserializationStrategy<Resource> {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Resource> {
+        val property = element.jsonObject
         return when {
-            "source" in element.jsonObject -> Source.serializer()
-            "payment" in element.jsonObject -> Payment.serializer()
-            "webhook" in element.jsonObject -> Webhook.serializer()
-            "payment_intent" in element.jsonObject -> PaymentIntent.serializer()
-            "payment_method" in element.jsonObject -> PaymentMethod.serializer()
-            "checkout_session" in element.jsonObject -> CheckoutSession.serializer()
-            else -> throw Exception("Resource not yet supported. `${element.jsonObject["type"]}`")
+            "source" in property -> Source.serializer()
+            "payment" in property -> Payment.serializer()
+            "webhook" in property -> Webhook.serializer()
+            "payment_intent" in property -> PaymentIntent.serializer()
+            "payment_method" in property -> PaymentMethod.serializer()
+            "checkout_session" in property -> CheckoutSession.serializer()
+            else -> throw ResourceNotSupported("Resource not yet supported. `${property["type"]}`")
         }
     }
 }

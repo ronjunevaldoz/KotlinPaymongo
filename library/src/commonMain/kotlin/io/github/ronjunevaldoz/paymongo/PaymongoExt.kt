@@ -1,7 +1,14 @@
 package io.github.ronjunevaldoz.paymongo
 
 import io.github.ronjunevaldoz.paymongo.models.Billing
-import io.github.ronjunevaldoz.paymongo.models.resource.*
+import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentType
+import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.WebhookEvent
+import io.github.ronjunevaldoz.paymongo.models.resource.WebhookResponse
 import kotlin.properties.Delegates
 
 
@@ -38,4 +45,20 @@ suspend fun IPayMongo.createPaymentMethod(input: CreatePaymentMethodInput.Builde
     return createPaymentMethod(CreatePaymentMethodInput.createPaymentMethodInput {
         apply(input)
     })
+}
+
+suspend fun IPayMongo.createWebhook(
+    url: String,
+    events: List<WebhookEvent.Event> = WebhookEvent.Event.All
+): WebhookResponse {
+    return createWebhook(
+        CreateWebhookInput(
+            CreateWebhookInput.WebhookInput(
+                CreateWebhookInput.AttributesInput(
+                    url = url,
+                    events = events
+                )
+            )
+        )
+    )
 }

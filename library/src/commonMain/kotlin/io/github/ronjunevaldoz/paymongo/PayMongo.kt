@@ -3,12 +3,14 @@ package io.github.ronjunevaldoz.paymongo
 import io.github.ronjunevaldoz.paymongo.models.resource.AttachPaymentIntentInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateLinkInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentIntentInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
@@ -123,6 +125,30 @@ class PayMongo(
 
     override suspend fun expireCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse {
         return client.post("/checkout_sessions/$checkoutSessionId/expire").body()
+    }
+
+    override suspend fun createLink(input: CreateLinkInput): PaymentLink {
+        return client.post("/links") {
+            setBody(input)
+        }.body()
+    }
+
+    override suspend fun getLink(id: String): PaymentLink {
+        return client.get("/links/$id").body()
+    }
+
+    override suspend fun getLinkByReference(referenceNumber: String): PaymentLink {
+        return client.get("/links") {
+            parameter("reference_number", referenceNumber)
+        }.body()
+    }
+
+    override suspend fun archiveLink(id: String): PaymentLink {
+        return client.post("/links/$id/archive").body()
+    }
+
+    override suspend fun unarchiveLink(id: String): PaymentLink {
+        return client.post("/links/$id/unarchive").body()
     }
 
     class Config(
