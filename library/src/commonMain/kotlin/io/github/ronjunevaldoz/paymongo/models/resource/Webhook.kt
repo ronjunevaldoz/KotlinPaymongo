@@ -16,7 +16,7 @@ data class CreateWebhookInput(
 
     @Serializable
     data class AttributesInput(
-        val url: String,
+        val url: String?,
         val events: List<WebhookEvent.Event>
     )
 }
@@ -58,7 +58,8 @@ data class WebhookEvent(
         LinkPaymentPaid("link.payment.paid"),
         PaymentRefunded("payment.refunded"),
         PaymentRefundUpdated("payment.refund.updated"),
-        CheckoutSessionPaymentPaid("checkout_session.payment.paid")
+        CheckoutSessionPaymentPaid("checkout_session.payment.paid"),
+        QrPHExpired("qrph.expired")
         ;
 
         companion object {
