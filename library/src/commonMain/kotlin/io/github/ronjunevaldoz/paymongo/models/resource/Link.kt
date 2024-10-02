@@ -5,7 +5,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateLinkInput(val data: Attributes) {
+data class CreateLinkInput(val data: LinkInput) {
+    @Serializable
+    data class LinkInput(
+        val attributes: Attributes
+    )
+
     @Serializable
     data class Attributes(
         val amount: Int,
