@@ -6,6 +6,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
+import io.github.ronjunevaldoz.paymongo.models.resource.LinkResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentType
 import io.github.ronjunevaldoz.paymongo.models.resource.SourceResponse
@@ -70,7 +71,7 @@ suspend fun IPayMongo.createLink(
     amount: Int,
     description: String,
     remarks: String
-): Link {
+): LinkResponse {
     return createLink(
         CreateLinkInput(
             data = CreateLinkInput.LinkInput(
