@@ -73,7 +73,7 @@ fun App() {
                             client.getLink("link_WrnsXCjNtdv8wfRDwcs6APjy")
                         }.fold(
                             onSuccess = {
-                                link = it
+                                link = it.data
                             },
                             onFailure = {
                                 it.printStackTrace()
@@ -89,7 +89,7 @@ fun App() {
                             client.getLink("NJUgWgz")
                         }.fold(
                             onSuccess = {
-                                link = it
+                                link = it.data
                             },
                             onFailure = {
                                 it.printStackTrace()
