@@ -1,5 +1,4 @@
-import gradle.kotlin.dsl.accessors._8edd1b0c1852f0ac869e9c414c462ba9.mavenPublishing
-import com.vanniktech.maven.publish.SonatypeHost
+import gradle.kotlin.dsl.accessors._94cffe4e74c4f6a3b1c88c3e0c336ef5.mavenPublishing
 
 plugins {
     id("com.vanniktech.maven.publish")
@@ -7,14 +6,14 @@ plugins {
 
 allprojects {
     group = "io.github.ronjunevaldoz"
-    version = "1.0.2-dev07"
+    version = "1.0.3"
 }
 
 mavenPublishing {
     coordinates(
         groupId = "io.github.ronjunevaldoz",
         artifactId = "paymongo-kotlin",
-        version = "1.0.2-dev07"
+        version = "1.0.3"
     )
 
     pom {
@@ -46,8 +45,4 @@ mavenPublishing {
             }
         }
     }
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    // Enable GPG signing for all publications
-    signAllPublications()
 }
