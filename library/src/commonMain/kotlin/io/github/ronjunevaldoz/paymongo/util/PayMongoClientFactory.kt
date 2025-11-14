@@ -26,11 +26,14 @@ import io.ktor.client.request.header
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 
 object PayMongoClientFactory {
-    private const val API_V1 = "https://api.paymongo.com/v1"
+    private const val API_HOST = "api.paymongo.com"
+    private const val API_V1 = "v1/"
 
     fun client(
         config: Config
@@ -81,7 +84,11 @@ object PayMongoClientFactory {
             }
         }
         defaultRequest {
-            url(API_V1)
+            url {
+                protocol = URLProtocol.HTTPS
+                host = API_HOST
+                path(API_V1)
+            }
             contentType(ContentType.Application.Json)
             header(HttpHeaders.Accept, "application/json")
         }

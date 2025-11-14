@@ -2,9 +2,9 @@
 # Android Gradle Plugin version
 agp = "8.2.2"
 # Android SDK versions
-android-compileSdk = "34"
+android-compileSdk = "36"
 android-minSdk = "24"
-android-targetSdk = "34"
+android-targetSdk = "36"
 # Kotlin and related libraries
 kotlin = "2.1.0"
 kotlinxSerialization = "1.7.2"
