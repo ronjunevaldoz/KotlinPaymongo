@@ -9,7 +9,7 @@ android-targetSdk = "36"
 kotlin = "2.2.21"
 kotlinxSerialization = "1.7.2"
 kotlinxCoroutine = "1.10.2"
-compose-plugin = "1.7.0-alpha03"
+compose-plugin = "1.10.0-beta01"
 # Ktor libraries
 ktor = "3.3.2"
 # Logging library
