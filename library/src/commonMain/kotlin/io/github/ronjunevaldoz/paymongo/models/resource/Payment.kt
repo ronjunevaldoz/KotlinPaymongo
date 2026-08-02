@@ -37,6 +37,13 @@ data class PaymentResponse(
     val data: Payment
 )
 
+@Serializable
+data class PaymentsResponse(
+    val data: List<Payment>,
+    @SerialName("has_more")
+    val hasMore: Boolean = false
+)
+
 
 @Serializable
 @SerialName("payment")

@@ -23,6 +23,9 @@ object ResourceSerializer : JsonContentPolymorphicSerializer<Resource>(Resource:
             "payment_intent" in property -> PaymentIntent.serializer()
             "payment_method" in property -> PaymentMethod.serializer()
             "checkout_session" in property -> CheckoutSession.serializer()
+            "payment_link" in property -> PaymentLink.serializer()
+            "customer" in property -> Customer.serializer()
+            "refund" in property -> Refund.serializer()
             else -> throw ResourceNotSupported("Resource not yet supported. `${property["type"]}`")
         }
     }

@@ -40,7 +40,7 @@ object PayMongoClientFactory {
     ): HttpClient = HttpClient {
         install(Logging) {
             logger = Logger.DEFAULT
-            level = LogLevel.ALL
+            level = config.logLevel
         }
         install(UserAgent) {
             agent = config.userAgent

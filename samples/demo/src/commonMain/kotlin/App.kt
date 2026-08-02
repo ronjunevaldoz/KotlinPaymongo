@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.ronjunevaldoz.paymongo.PayMongo
-import io.github.ronjunevaldoz.paymongo.models.resource.Link
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
 import kotlinx.coroutines.launch
 
 
@@ -29,7 +29,7 @@ fun App() {
     MaterialTheme {
         val scope = rememberCoroutineScope()
         var webhooks by remember { mutableStateOf<List<String>>(listOf()) }
-        var link by remember { mutableStateOf<Link?>(null) }
+        var link by remember { mutableStateOf<PaymentLink?>(null) }
         var secretKey by remember { mutableStateOf("sk_test_mqRYWTNuCR3pnKQvD48iJfng") }
         val client by remember(secretKey) {
             mutableStateOf(
@@ -70,7 +70,7 @@ fun App() {
                 Button(onClick = {
                     scope.launch {
                         runCatching {
-                            client.getLink("link_WrnsXCjNtdv8wfRDwcs6APjy")
+                            client.getPaymentLink("link_WrnsXCjNtdv8wfRDwcs6APjy")
                         }.fold(
                             onSuccess = {
                                 link = it.data
@@ -81,15 +81,15 @@ fun App() {
                         )
                     }
                 }) {
-                    Text("Get link by id")
+                    Text("Get payment link by id")
                 }
                 Button(onClick = {
                     scope.launch {
                         runCatching {
-                            client.getLink("NJUgWgz")
+                            client.listPaymentLinks(limit = 1)
                         }.fold(
                             onSuccess = {
-                                link = it.data
+                                link = it.data.firstOrNull()
                             },
                             onFailure = {
                                 it.printStackTrace()
@@ -97,7 +97,7 @@ fun App() {
                         )
                     }
                 }) {
-                    Text("Get link by reference")
+                    Text("List payment links")
                 }
                 if (link != null) {
                     Text("Payment Link: $link")

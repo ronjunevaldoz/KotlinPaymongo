@@ -13,7 +13,7 @@ Paymongo client for kotlin
   - [x] Get source by id
 - Payments
   - [x] Create payment
-  - [ ] List all payments
+  - [x] List all payments
   - [ ] Get payment by id
 - Payment Intents
   - [x] Create payment intent
@@ -30,21 +30,31 @@ Paymongo client for kotlin
   - [x] Get webhooks
   - [x] Enable/Disable webhook
   - [x] Update webhook
-- Link
+- Link (deprecated by PayMongo, use Payment Links instead)
   - [x] Create a link
   - [x] Get link by id
   - [x] Get link by reference number
   - [x] Archive link
   - [x] Unarchive link
+- Payment Links
+  - [x] Create a payment link
+  - [x] Get a payment link by id
+  - [x] List payment links
+  - [x] Archive/Unarchive a payment link
+  - [x] List payments for a payment link
 - Refunds
-  - [ ] Refund resource
-  - [ ] Create refund
+  - [x] Create refund on a payment link
   - [ ] Retrieve a refund
   - [ ] List all refunds
 - Customers
+  - [x] Create customer
+  - [x] Retrieve a customer
+  - [x] List customers
+  - [x] Update customer
+  - [x] Delete customer
 
 ## API Reference
-https://developers.paymongo.com/reference
+https://docs.paymongo.com/reference
 
 ## Usage
 ```kotlin
