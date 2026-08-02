@@ -69,12 +69,7 @@ class ReceivedWebhookEventTest {
                 "        }\n" +
                 "    }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
     }
 
     @Test
@@ -143,12 +138,7 @@ class ReceivedWebhookEventTest {
                 "        }\n" +
                 "    }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<ReceiveWebhookEvent>(paidPaymentEventJsonString)
     }
 
     @Test
@@ -199,12 +189,7 @@ class ReceivedWebhookEventTest {
                 "        }\n" +
                 "    }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
     }
 
     @Test
@@ -256,12 +241,7 @@ class ReceivedWebhookEventTest {
                 "        }\n" +
                 "    }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
     }
 
     @Test
@@ -359,12 +339,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "  }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
     }
 
     @Test
@@ -406,12 +381,7 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "  }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<CreateCheckoutSessionInput>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<CreateCheckoutSessionInput>(sourceEventJsonString)
     }
 
     @Test
@@ -509,24 +479,13 @@ class ReceivedWebhookEventTest {
                 "    }\n" +
                 "  }\n" +
                 "}"
-        try {
-            PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<CheckoutSessionResponse>(sourceEventJsonString)
     }
 
     @Test
     fun `Link payment paid should not throw an exception`() {
         val sourceEventJsonString =
             "{\"data\":{\"id\":\"evt_AFDUsU4tTaXXLZRZedLDrjuS\",\"type\":\"event\",\"attributes\":{\"type\":\"link.payment.paid\",\"livemode\":false,\"data\":{\"id\":\"link_xkZBPitmewE1YABBuMN8b5jh\",\"type\":\"link\",\"attributes\":{\"amount\":135000,\"archived\":false,\"currency\":\"PHP\",\"description\":\"PREMIUM subscription for 3 month/s \",\"livemode\":false,\"fee\":3375,\"remarks\":\"670125a0e80fbe64c638b9b2\",\"status\":\"paid\",\"tax_amount\":null,\"taxes\":[],\"checkout_url\":\"https://pm.link/org-GapS1xaVTL395KW4ucNFgpkw/test/d677VxY\",\"reference_number\":\"d677VxY\",\"created_at\":1728128417,\"updated_at\":1728128417,\"payments\":[{\"data\":{\"id\":\"pay_KXVd5SLmqF99kNFKrSTbiL6o\",\"type\":\"payment\",\"attributes\":{\"access_url\":null,\"amount\":135000,\"balance_transaction_id\":\"bal_txn_GtjZGT7etSDVtsNtdpjwAJAN\",\"billing\":{\"address\":{\"city\":\"Taguig\",\"country\":\"PH\",\"line1\":\"12th floor The Trade and Financial Tower u1206\",\"line2\":\"32nd street and 7th Avenue\",\"postal_code\":\"1630\",\"state\":\"Bonifacio Global City\"},\"email\":\"adw@Awda.com\",\"name\":\"awdawd\",\"phone\":\"w\"},\"currency\":\"PHP\",\"description\":\"PREMIUM subscription for 3 month/s \",\"disputed\":false,\"external_reference_number\":\"d677VxY\",\"fee\":3375,\"instant_settlement\":null,\"livemode\":false,\"net_amount\":131625,\"origin\":\"links\",\"payment_intent_id\":null,\"payout\":null,\"source\":{\"id\":\"src_JZH7WUoy7jVsfcUhfVDAer1o\",\"type\":\"gcash\"},\"statement_descriptor\":\"PAYMONGO\",\"status\":\"paid\",\"tax_amount\":null,\"metadata\":{\"pm_reference_number\":\"d677VxY\"},\"refunds\":[],\"taxes\":[],\"available_at\":1728464400,\"created_at\":1728128494,\"credited_at\":1729069200,\"paid_at\":1728128494,\"updated_at\":1728128494}}}]}},\"previous_data\":{},\"created_at\":1728128495,\"updated_at\":1728128495}}}"
-        try {
-            PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
-            assert(true)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            assert(false)
-        }
+        PayMongoJson.decodeFromString<ReceiveWebhookEvent>(sourceEventJsonString)
     }
 }
