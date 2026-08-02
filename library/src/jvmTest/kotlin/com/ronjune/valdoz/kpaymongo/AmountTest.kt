@@ -2,6 +2,7 @@ package com.ronjune.valdoz.kpaymongo
 
 import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.centavos
+import io.github.ronjunevaldoz.paymongo.models.majorUnits
 import io.github.ronjunevaldoz.paymongo.serialization.PayMongoJson
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -47,6 +48,12 @@ class AmountTest {
     fun `int centavos builds an Amount literal`() {
         assertEquals(Amount(1000), 1000.centavos)
         assertEquals(1000, 1000.centavos.minorUnits)
+    }
+
+    @Test
+    fun `double majorUnits builds an Amount from pesos`() {
+        assertEquals(Amount(10000), 100.0.majorUnits)
+        assertEquals(100.0.majorUnits, 10000.centavos)
     }
 
     @Test

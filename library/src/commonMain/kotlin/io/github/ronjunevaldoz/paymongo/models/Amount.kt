@@ -41,3 +41,6 @@ val Amount.centavos: Int get() = minorUnits
 
 /** `1000.centavos` builds an [Amount] directly, e.g. as a literal in a request body. */
 val Int.centavos: Amount get() = Amount(this)
+
+/** `100.0.majorUnits` builds an [Amount] from pesos, e.g. `100.0.majorUnits` == `10000.centavos`. */
+val Double.majorUnits: Amount get() = Amount.ofMajorUnits(this)
