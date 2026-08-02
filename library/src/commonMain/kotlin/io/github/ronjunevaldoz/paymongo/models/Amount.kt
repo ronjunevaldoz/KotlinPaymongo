@@ -38,3 +38,6 @@ object AmountSerializer : KSerializer<Amount> {
 
 /** PayMongo's only supported currency is PHP; centavos is the domestic name for [Amount.minorUnits]. */
 val Amount.centavos: Int get() = minorUnits
+
+/** `1000.centavos` builds an [Amount] directly, e.g. as a literal in a request body. */
+val Int.centavos: Amount get() = Amount(this)

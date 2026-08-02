@@ -44,6 +44,12 @@ class AmountTest {
     }
 
     @Test
+    fun `int centavos builds an Amount literal`() {
+        assertEquals(Amount(1000), 1000.centavos)
+        assertEquals(1000, 1000.centavos.minorUnits)
+    }
+
+    @Test
     fun `serializes as a plain JSON integer, unchanged on the wire`() {
         val json = PayMongoJson.encodeToString(Amount.serializer(), Amount(10000))
         assertEquals("10000", json)
