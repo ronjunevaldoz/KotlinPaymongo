@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v1.1.0]
+
+### Added
+- Payment Links resource (`/v1/payment_links`): create, get, list, archive/unarchive, list payments, create refund
+- Customers resource: create, retrieve, list, update, delete
+- Customer payment methods (v2): list, delete
+- Checkout session v2 (deferred flow, no Payment Intent created up front)
+- `listPayments` (list all payments)
+- `Amount` value class wrapping every `amount` field (Source, Payment, PaymentIntent, Link, PaymentLink, Refund, CheckoutSession, Tax) so pesos/centavos can't be mixed up at a call site; wire format unchanged. `Int.centavos`, `Double.majorUnits`/`.pesos`, `Amount.centavos`/`.pesos` literal/alias extensions
+
+### Changed
+- `Config.logLevel` now defaults to `LogLevel.NONE` (was `LogLevel.ALL`, which logged the secret key and payment bodies on every request)
+- `createLink`/`getLink`/`getLinkByReference`/`archiveLink`/`unarchiveLink` deprecated in favor of the Payment Links equivalents; PayMongo has retired `/links` from its docs
+
+### Fixed
+- `PayMongoError.Source.attribute` was non-nullable, crashing with a confusing `MissingFieldException` instead of the intended `PayMongoException` on validation errors that omit it
+- `Payment.Attributes.availableAt` was missing `@SerialName("available_at")` and always decoded to `0`
+- `ResourceSerializer.selectDeserializer` dispatched on JSON key presence instead of the `type` field's value, so it never matched a real payload
+- `ReceivedWebhookEventTest`'s assertions were silent no-ops (`assert()` is disabled by default on the JVM without `-ea`)
+
 ## [v1.0.3-dev02]
 ### Changes
 - Bump to latest kotlin 2.2.21
