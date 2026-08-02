@@ -2,7 +2,9 @@ package io.github.ronjunevaldoz.paymongo
 
 import io.github.ronjunevaldoz.paymongo.models.resource.AttachPaymentIntentInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionV2Response
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionV2Input
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCustomerInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateLinkInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentInput
@@ -12,8 +14,10 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateRefundInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CustomerPaymentMethodsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomersResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerPaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
@@ -156,6 +160,12 @@ class PayMongo(
         return client.post("checkout_sessions/$checkoutSessionId/expire").body()
     }
 
+    override suspend fun createCheckoutSessionV2(input: CreateCheckoutSessionV2Input): CheckoutSessionV2Response {
+        return client.post("/v2/checkout_sessions") {
+            setBody(input)
+        }.body()
+    }
+
     @Deprecated("Retired by PayMongo; use createPaymentLink", ReplaceWith("createPaymentLink(input)"))
     override suspend fun createLink(input: CreateLinkInput): LinkResponse {
         return client.post("links") {
@@ -253,6 +263,24 @@ class PayMongo(
 
     override suspend fun deleteCustomer(id: String): DeletedCustomerResponse {
         return client.delete("customers/$id").body()
+    }
+
+    override suspend fun listCustomerPaymentMethods(
+        customerId: String,
+        limit: Int?,
+        lastEvaluatedPaymentMethodId: String?
+    ): CustomerPaymentMethodsResponse {
+        return client.get("/v2/customer_payment_methods/$customerId") {
+            limit?.let { parameter("limit", it) }
+            lastEvaluatedPaymentMethodId?.let { parameter("last_evaluated_payment_method_id", it) }
+        }.body()
+    }
+
+    override suspend fun deleteCustomerPaymentMethod(
+        customerId: String,
+        paymentMethodId: String
+    ): DeletedCustomerPaymentMethodResponse {
+        return client.delete("/v2/customer_payment_methods/$customerId/$paymentMethodId").body()
     }
 
     class Config(

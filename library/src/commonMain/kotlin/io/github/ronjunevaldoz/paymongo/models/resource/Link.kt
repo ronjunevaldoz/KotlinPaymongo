@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.Tax
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,7 +14,7 @@ data class CreateLinkInput(val data: LinkInput) {
 
     @Serializable
     data class Attributes(
-        val amount: Int,
+        val amount: Amount,
         val description: String,
         val remarks: String
     )
@@ -33,7 +34,7 @@ data class Link(
 ) : Resource() {
     @Serializable
     data class Attributes(
-        val amount: Int,
+        val amount: Amount,
         val archived: Boolean,
         val currency: String,
         val description: String,

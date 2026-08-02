@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.serializers.Request3DSecureSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,7 +15,7 @@ data class CreatePaymentIntentInput(
     ) {
         @Serializable
         data class AttributesInput(
-            val amount: Int,
+            val amount: Amount,
             @SerialName("payment_method_allowed")
             val paymentMethodAllowed: List<PaymentType>,
             @SerialName("payment_method_options")
@@ -59,7 +60,7 @@ data class PaymentIntent(
 ) : Resource() {
     @Serializable
     data class Attributes(
-        val amount: Int,
+        val amount: Amount,
         val currency: String,
         val description: String? = null,
         @SerialName("statement_descriptor")

@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.Billing
 import io.github.ronjunevaldoz.paymongo.models.Tax
 import kotlinx.serialization.SerialName
@@ -15,7 +16,7 @@ data class CreatePaymentInput(
     ) {
         @Serializable
         data class AttributesInput(
-            val amount: Int,
+            val amount: Amount,
             val description: String? = null,
             val currency: String,
             @SerialName("statement_descriptor")
@@ -55,7 +56,7 @@ data class Payment(
     data class Attributes(
         @SerialName("access_url")
         val accessUrl: String? = null,
-        val amount: Int,
+        val amount: Amount,
         @SerialName("balance_transaction_id")
         val balanceTransactionId: String,
         val billing: Billing,
@@ -84,6 +85,7 @@ data class Payment(
         val metadata: Map<String, String>? = null,
         val refunds : List<String> = emptyList(),
         val taxes : List<Tax> = emptyList(),
+        @SerialName("available_at")
         val availableAt : Long = 0,
         @SerialName("created_at")
         val createdAt : Long = 0,

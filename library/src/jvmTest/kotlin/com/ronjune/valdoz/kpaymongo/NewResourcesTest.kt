@@ -1,10 +1,18 @@
 package com.ronjune.valdoz.kpaymongo
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionV2Response
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionV2Input
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSession
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionV2Input
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCustomerInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentLinkInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateRefundInput
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentType
+import io.github.ronjunevaldoz.paymongo.models.resource.CustomerPaymentMethodsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomersResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerPaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkPaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkResponse
@@ -22,14 +30,14 @@ class NewResourcesTest {
     @Test
     fun `Create payment link input should serialize amount and currency`() {
         val input = CreatePaymentLinkInput(
-            amount = 10000,
+            amount = Amount(10000),
             currency = "PHP",
             description = "Test",
             remarks = "note"
         )
         val json = PayMongoJson.encodeToString(CreatePaymentLinkInput.serializer(), input)
         val decoded = PayMongoJson.decodeFromString(CreatePaymentLinkInput.serializer(), json)
-        assertEquals(10000, decoded.amount)
+        assertEquals(Amount(10000), decoded.amount)
         assertEquals("PHP", decoded.currency)
     }
 
@@ -122,7 +130,7 @@ class NewResourcesTest {
     @Test
     fun `Create refund input should serialize amount and payment id`() {
         val input = CreateRefundInput(
-            amount = 100.0,
+            amount = Amount.ofMajorUnits(100.0),
             paymentId = "pay_123",
             reason = "requested_by_customer"
         )
@@ -309,5 +317,104 @@ class NewResourcesTest {
         val response = PayMongoJson.decodeFromString(PaymentsResponse.serializer(), json)
         assertEquals(1, response.data.size)
         assertFalse(response.hasMore)
+        // regression: availableAt was missing @SerialName("available_at") and always decoded to 0
+        assertEquals(1679562000L, response.data[0].attributes.availableAt)
+    }
+
+    // Shape from https://docs.paymongo.com/reference/get_customer_payment_methods
+    @Test
+    fun `Customer payment methods response should not throw an exception`() {
+        val json = """
+            {
+              "data": {
+                "customer_payment_methods": [
+                  {
+                    "created_at": 1710000000000,
+                    "customer_id": "cus_abc123",
+                    "live_mode": true,
+                    "payment_method_id": "pm_abc123",
+                    "session_type": "on_session",
+                    "source_type": "card",
+                    "updated_at": 1710000000000
+                  }
+                ],
+                "last_evaluated_payment_method_id": "pm_abc123"
+              },
+              "has_more": true
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(CustomerPaymentMethodsResponse.serializer(), json)
+        assertEquals(1, response.data.customerPaymentMethods.size)
+        assertTrue(response.hasMore)
+    }
+
+    // Shape from https://docs.paymongo.com/reference/delete_customer_payment_methods_customer_id
+    @Test
+    fun `Deleted customer payment method response should not throw an exception`() {
+        val json = """
+            {
+              "data": {
+                "created_at": 1710000000000,
+                "customer_id": "cus_abc123",
+                "deleted_at": 1710000001000,
+                "live_mode": false,
+                "payment_method_id": "pm_abc123",
+                "session_type": "on_session",
+                "source_type": "card",
+                "updated_at": 1710000001000
+              },
+              "has_more": false
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(DeletedCustomerPaymentMethodResponse.serializer(), json)
+        assertEquals("pm_abc123", response.data.paymentMethodId)
+    }
+
+    @Test
+    fun `Create checkout session v2 input should serialize line items and payment method types`() {
+        val input = CreateCheckoutSessionV2Input(
+            data = CheckoutSessionV2Input(
+                attributes = CheckoutSessionV2Input.AttributesInput(
+                    lineItems = listOf(
+                        CheckoutSession.LineItem(
+                            amount = Amount(10000),
+                            currency = "PHP",
+                            description = "Test item",
+                            name = "Test",
+                            quantity = 1
+                        )
+                    ),
+                    paymentMethodTypes = listOf(PaymentType.GCash),
+                    passOnFees = true
+                )
+            )
+        )
+        val json = PayMongoJson.encodeToString(CreateCheckoutSessionV2Input.serializer(), input)
+        val decoded = PayMongoJson.decodeFromString(CreateCheckoutSessionV2Input.serializer(), json)
+        assertEquals(1, decoded.data.attributes.lineItems.size)
+        assertEquals(true, decoded.data.attributes.passOnFees)
+    }
+
+    // Shape from https://docs.paymongo.com/reference/create_checkout_sessions_2
+    @Test
+    fun `Checkout session v2 response should not throw an exception`() {
+        val json = """
+            {
+              "data": {
+                "id": "cs_abc123",
+                "type": "checkout_session",
+                "attributes": {
+                  "checkout_url": "https://checkout.paymongo.com/cs_abc123",
+                  "livemode": false,
+                  "created_at": 1728128417,
+                  "updated_at": 1728128417
+                }
+              },
+              "has_more": false
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(CheckoutSessionV2Response.serializer(), json)
+        assertEquals("cs_abc123", response.data.id)
+        assertEquals("https://checkout.paymongo.com/cs_abc123", response.data.attributes.checkoutUrl)
     }
 }

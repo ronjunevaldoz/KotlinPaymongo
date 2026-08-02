@@ -2,7 +2,9 @@ package io.github.ronjunevaldoz.paymongo
 
 import io.github.ronjunevaldoz.paymongo.models.resource.AttachPaymentIntentInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.CheckoutSessionV2Response
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CreateCheckoutSessionV2Input
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateCustomerInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateLinkInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentInput
@@ -12,8 +14,10 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateRefundInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateSourceInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateWebhookInput
+import io.github.ronjunevaldoz.paymongo.models.resource.CustomerPaymentMethodsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomersResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerPaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
@@ -105,6 +109,13 @@ interface IPayMongo {
     suspend fun expireCheckoutSession(checkoutSessionId: String): CheckoutSessionResponse
 
     /**
+     * v2 checkout session (deferred flow, no Payment Intent created up front). PayMongo
+     * recommends this over [createCheckoutSession] for new integrations; track payment via
+     * the `checkout_session.payment.paid` webhook instead of polling a Payment Intent.
+     */
+    suspend fun createCheckoutSessionV2(input: CreateCheckoutSessionV2Input): CheckoutSessionV2Response
+
+    /**
      * PayMongo retired the `/links` endpoint these target from its docs.
      * Use [createPaymentLink] and friends against `/v1/payment_links` instead.
      */
@@ -192,4 +203,26 @@ interface IPayMongo {
      *  @param [id] Customer id
      */
     suspend fun deleteCustomer(id: String): DeletedCustomerResponse
+
+    /**
+     * PayMongo has no standalone `/payment_methods/{id}` retrieve/update endpoint -- only
+     * customer-scoped payment methods exist.
+     *  @param [customerId] Customer id
+     *  @param [limit] Max resources to return; defaults to 20, max 100, server-side
+     *  @param [lastEvaluatedPaymentMethodId] Pagination cursor; keep paginating until omitted from the response
+     */
+    suspend fun listCustomerPaymentMethods(
+        customerId: String,
+        limit: Int? = null,
+        lastEvaluatedPaymentMethodId: String? = null
+    ): CustomerPaymentMethodsResponse
+
+    /**
+     *  @param [customerId] Customer id
+     *  @param [paymentMethodId] PaymentMethod id
+     */
+    suspend fun deleteCustomerPaymentMethod(
+        customerId: String,
+        paymentMethodId: String
+    ): DeletedCustomerPaymentMethodResponse
 }

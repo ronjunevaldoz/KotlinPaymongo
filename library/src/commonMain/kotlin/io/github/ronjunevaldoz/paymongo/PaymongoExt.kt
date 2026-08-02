@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.Billing
 import io.github.ronjunevaldoz.paymongo.models.resource.CreateLinkInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CreatePaymentMethodInput
@@ -19,7 +20,7 @@ import kotlin.properties.Delegates
 
 class PayMongoSourceBuilder {
     var type: PaymentType by Delegates.notNull()
-    var amount: Int by Delegates.notNull()
+    var amount: Amount by Delegates.notNull()
     var redirectSuccess: String by Delegates.notNull()
     var redirectFailed: String by Delegates.notNull()
     var billing: Billing? = null
@@ -28,7 +29,7 @@ class PayMongoSourceBuilder {
         data = CreateSourceInput.SourceInput(
             attributes = CreateSourceInput.AttributesInput(
                 type = type,
-                amount = amount, // 100.00
+                amount = amount,
                 redirect = CreateSourceInput.RedirectInput(
                     success = redirectSuccess,
                     failed = redirectFailed
@@ -71,7 +72,7 @@ suspend fun IPayMongo.createWebhook(
 
 @Deprecated("Retired by PayMongo; use createPaymentLink", ReplaceWith("createPaymentLink(amount, \"PHP\", description, remarks)"))
 suspend fun IPayMongo.createLink(
-    amount: Int,
+    amount: Amount,
     description: String,
     remarks: String
 ): LinkResponse {
@@ -90,7 +91,7 @@ suspend fun IPayMongo.createLink(
 }
 
 suspend fun IPayMongo.createPaymentLink(
-    amount: Int,
+    amount: Amount,
     currency: String = "PHP",
     description: String? = null,
     remarks: String? = null

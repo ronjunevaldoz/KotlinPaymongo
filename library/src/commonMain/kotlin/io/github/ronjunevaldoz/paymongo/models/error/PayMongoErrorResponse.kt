@@ -16,6 +16,6 @@ data class PayMongoError(
     @Serializable
     data class Source(
         val pointer: String,
-        val attribute: String
+        val attribute: String? = null
     )
 }

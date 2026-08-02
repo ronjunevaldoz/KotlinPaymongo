@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Tax(
-    val amount: Int,
+    val amount: Amount,
     val currency: String,
     val inclusive: Boolean,
     val name: String,

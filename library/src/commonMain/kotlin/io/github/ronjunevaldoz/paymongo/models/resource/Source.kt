@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import io.github.ronjunevaldoz.paymongo.models.Billing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,7 +18,7 @@ data class CreateSourceInput(
     @Serializable
     data class AttributesInput(
         val type: PaymentType,
-        val amount: Int,
+        val amount: Amount,
         val currency: String,
         val redirect: RedirectInput,
         val billing: Billing? = null
@@ -43,7 +44,7 @@ data class Source(
 ) : Resource() {
     @Serializable
     data class Attributes(
-        val amount: Int,
+        val amount: Amount,
         val billing: Billing? = null,
         val currency: String,
         val description: String? = null,

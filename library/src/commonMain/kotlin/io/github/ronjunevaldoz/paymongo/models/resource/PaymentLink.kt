@@ -1,5 +1,6 @@
 package io.github.ronjunevaldoz.paymongo.models.resource
 
+import io.github.ronjunevaldoz.paymongo.models.Amount
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class CreatePaymentLinkInput(
-    val amount: Int,
+    val amount: Amount,
     val currency: String,
     val description: String? = null,
     val remarks: String? = null,
@@ -40,7 +41,7 @@ data class PaymentLinksResponse(
 @Serializable
 data class PaymentLink(
     val id: String,
-    val amount: Int,
+    val amount: Amount,
     val currency: String,
     val description: String? = null,
     val remarks: String? = null,
@@ -83,7 +84,7 @@ data class PaymentLinkPaymentsResponse(
 data class PaymentLinkPayment(
     @SerialName("payment_id")
     val paymentId: String,
-    val amount: Int,
+    val amount: Amount,
     val currency: String,
     @SerialName("livemode")
     val liveMode: Boolean,

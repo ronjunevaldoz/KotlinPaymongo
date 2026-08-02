@@ -14,16 +14,20 @@ Paymongo client for kotlin
 - Payments
   - [x] Create payment
   - [x] List all payments
-  - [ ] Get payment by id
+  - [ ] Get payment by id -- not offered by the PayMongo API
 - Payment Intents
   - [x] Create payment intent
   - [x] Get payment intent by id and or client key
   - [x] Attach payment intent
 - Payment Method
   - [x] Create payment method
-  - [ ] Get payment method by id
-  - [ ] Update payment method by id
-  - [ ] Get List of possible merchant payment methods
+  - [ ] Get/update payment method by id -- not offered by the PayMongo API; only customer-scoped payment methods exist (see below)
+  - [x] List a customer's payment methods (v2)
+  - [x] Delete a customer's payment method (v2)
+- Checkout Sessions
+  - [x] Create checkout session (v1)
+  - [x] Get / expire checkout session
+  - [x] Create checkout session (v2, deferred flow, recommended for new integrations)
 - Webhooks
   - [x] Create webhook
   - [x] Get webhook
@@ -44,8 +48,7 @@ Paymongo client for kotlin
   - [x] List payments for a payment link
 - Refunds
   - [x] Create refund on a payment link
-  - [ ] Retrieve a refund
-  - [ ] List all refunds
+  - [ ] Retrieve/list refunds -- not offered by the PayMongo API
 - Customers
   - [x] Create customer
   - [x] Retrieve a customer
