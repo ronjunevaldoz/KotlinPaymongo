@@ -1,6 +1,7 @@
 package com.ronjune.valdoz.kpaymongo
 
 import io.github.ronjunevaldoz.paymongo.models.Amount
+import io.github.ronjunevaldoz.paymongo.models.centavos
 import io.github.ronjunevaldoz.paymongo.serialization.PayMongoJson
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,6 +35,12 @@ class AmountTest {
         assertEquals(Amount(10500), a + b)
         assertEquals(Amount(9500), a - b)
         assertTrue(a > b)
+    }
+
+    @Test
+    fun `centavos is an alias for minorUnits`() {
+        assertEquals(10000, Amount(10000).centavos)
+        assertEquals(Amount(10000).minorUnits, Amount(10000).centavos)
     }
 
     @Test

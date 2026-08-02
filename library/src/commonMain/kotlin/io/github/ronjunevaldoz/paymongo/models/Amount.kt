@@ -35,3 +35,6 @@ object AmountSerializer : KSerializer<Amount> {
     override fun serialize(encoder: Encoder, value: Amount) = encoder.encodeInt(value.minorUnits)
     override fun deserialize(decoder: Decoder): Amount = Amount(decoder.decodeInt())
 }
+
+/** PayMongo's only supported currency is PHP; centavos is the domestic name for [Amount.minorUnits]. */
+val Amount.centavos: Int get() = minorUnits
