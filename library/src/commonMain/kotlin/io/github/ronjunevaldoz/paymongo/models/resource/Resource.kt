@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 @Polymorphic
 @Serializable(with = ResourceSerializer::class)
@@ -15,17 +16,18 @@ sealed class Resource
 object ResourceSerializer : JsonContentPolymorphicSerializer<Resource>(Resource::class) {
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Resource> {
         val property = element.jsonObject
-        return when {
-            "link" in property -> Link.serializer()
-            "source" in property -> Source.serializer()
-            "payment" in property -> Payment.serializer()
-            "webhook" in property -> Webhook.serializer()
-            "payment_intent" in property -> PaymentIntent.serializer()
-            "payment_method" in property -> PaymentMethod.serializer()
-            "checkout_session" in property -> CheckoutSession.serializer()
-            "payment_link" in property -> PaymentLink.serializer()
-            "customer" in property -> Customer.serializer()
-            "refund" in property -> Refund.serializer()
+        // dispatch on the "type" field's value, not on key presence -- a resource's JSON
+        // never has a key literally named "link"/"payment"/etc, only a "type" field with
+        // that value
+        return when (property["type"]?.jsonPrimitive?.content) {
+            "link" -> Link.serializer()
+            "source" -> Source.serializer()
+            "payment" -> Payment.serializer()
+            "webhook" -> Webhook.serializer()
+            "payment_intent" -> PaymentIntent.serializer()
+            "payment_method" -> PaymentMethod.serializer()
+            "checkout_session" -> CheckoutSession.serializer()
+            "customer" -> Customer.serializer()
             else -> throw ResourceNotSupported("Resource not yet supported. `${property["type"]}`")
         }
     }

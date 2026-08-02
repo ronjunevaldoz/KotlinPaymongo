@@ -6,37 +6,24 @@ import kotlinx.serialization.Serializable
 /**
  * Current Payment Links resource (`/v1/payment_links`).
  * Replaces the legacy [Link] resource (`/links`), which PayMongo has retired from its docs.
+ * Unlike [Link] and other older resources, fields here are flat -- no `data.attributes`
+ * wrapping on write, no `attributes` nesting or `type` discriminator on read, and
+ * timestamps are ISO-8601 strings, not epoch seconds. Verified against a live sandbox call.
  * @see (https://docs.paymongo.com/reference/payment-links)
  */
 @Serializable
-data class CreatePaymentLinkInput(val data: PaymentLinkInput) {
-    @Serializable
-    data class PaymentLinkInput(
-        val attributes: Attributes
-    )
-
-    @Serializable
-    data class Attributes(
-        val amount: Int,
-        val currency: String,
-        val description: String? = null,
-        val remarks: String? = null,
-        val metadata: Map<String, String>? = null
-    )
-}
+data class CreatePaymentLinkInput(
+    val amount: Int,
+    val currency: String,
+    val description: String? = null,
+    val remarks: String? = null,
+    val metadata: Map<String, String>? = null
+)
 
 @Serializable
-data class UpdatePaymentLinkInput(val data: PaymentLinkInput) {
-    @Serializable
-    data class PaymentLinkInput(
-        val attributes: Attributes
-    )
-
-    @Serializable
-    data class Attributes(
-        val archive: Boolean
-    )
-}
+data class UpdatePaymentLinkInput(
+    val archive: Boolean
+)
 
 @Serializable
 data class PaymentLinkResponse(
@@ -51,31 +38,25 @@ data class PaymentLinksResponse(
 )
 
 @Serializable
-@SerialName("payment_link")
 data class PaymentLink(
     val id: String,
-    val attributes: Attributes
-) : Resource() {
-    @Serializable
-    data class Attributes(
-        val amount: Int,
-        val currency: String,
-        val description: String? = null,
-        val remarks: String? = null,
-        val status: String,
-        @SerialName("livemode")
-        val liveMode: Boolean,
-        val url: String,
-        @SerialName("reference_number")
-        val referenceNumber: String,
-        val metadata: Map<String, String>? = null,
-        val restrictions: Restrictions? = null,
-        @SerialName("created_at")
-        val createdAt: Long,
-        @SerialName("updated_at")
-        val updatedAt: Long
-    )
-
+    val amount: Int,
+    val currency: String,
+    val description: String? = null,
+    val remarks: String? = null,
+    val status: String,
+    @SerialName("livemode")
+    val liveMode: Boolean,
+    val url: String,
+    @SerialName("reference_number")
+    val referenceNumber: String,
+    val metadata: Map<String, String>? = null,
+    val restrictions: Restrictions? = null,
+    @SerialName("created_at")
+    val createdAt: String,
+    @SerialName("updated_at")
+    val updatedAt: String
+) {
     @Serializable
     data class Restrictions(
         @SerialName("completed_sessions")
@@ -88,3 +69,28 @@ data class PaymentLink(
         val limit: Int
     )
 }
+
+/**
+ * Lightweight payment summary returned by `GET /v1/payment_links/{id}/payments`.
+ * Distinct from and much narrower than [Payment] -- confirmed live, do not conflate the two.
+ */
+@Serializable
+data class PaymentLinkPaymentsResponse(
+    val data: List<PaymentLinkPayment>
+)
+
+@Serializable
+data class PaymentLinkPayment(
+    @SerialName("payment_id")
+    val paymentId: String,
+    val amount: Int,
+    val currency: String,
+    @SerialName("livemode")
+    val liveMode: Boolean,
+    val description: String? = null,
+    val status: String,
+    @SerialName("created_at")
+    val createdAt: String,
+    @SerialName("updated_at")
+    val updatedAt: String
+)

@@ -18,6 +18,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
 import io.github.ronjunevaldoz.paymongo.models.resource.LinkResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkPaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinksResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
@@ -154,7 +155,7 @@ interface IPayMongo {
     /**
      *  @param [id] PaymentLink id
      */
-    suspend fun getPaymentLinkPayments(id: String): PaymentsResponse
+    suspend fun getPaymentLinkPayments(id: String): PaymentLinkPaymentsResponse
 
     /**
      *  @param [id] PaymentLink id

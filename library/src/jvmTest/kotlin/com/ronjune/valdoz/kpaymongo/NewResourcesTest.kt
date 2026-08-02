@@ -6,6 +6,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.CreateRefundInput
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.CustomersResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkPaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinksResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentsResponse
@@ -21,55 +22,49 @@ class NewResourcesTest {
     @Test
     fun `Create payment link input should serialize amount and currency`() {
         val input = CreatePaymentLinkInput(
-            data = CreatePaymentLinkInput.PaymentLinkInput(
-                attributes = CreatePaymentLinkInput.Attributes(
-                    amount = 10000,
-                    currency = "PHP",
-                    description = "Test",
-                    remarks = "note"
-                )
-            )
+            amount = 10000,
+            currency = "PHP",
+            description = "Test",
+            remarks = "note"
         )
         val json = PayMongoJson.encodeToString(CreatePaymentLinkInput.serializer(), input)
         val decoded = PayMongoJson.decodeFromString(CreatePaymentLinkInput.serializer(), json)
-        assertEquals(10000, decoded.data.attributes.amount)
-        assertEquals("PHP", decoded.data.attributes.currency)
+        assertEquals(10000, decoded.amount)
+        assertEquals("PHP", decoded.currency)
     }
 
+    // Captured from a live sandbox POST /v1/payment_links call
     @Test
     fun `Payment link response should not throw an exception`() {
         val json = """
             {
               "data": {
-                "id": "link_xkZBPitmewE1YABBuMN8b5jh",
-                "type": "payment_link",
-                "attributes": {
-                  "amount": 10000,
-                  "currency": "PHP",
-                  "description": "Test",
-                  "remarks": "note",
-                  "status": "active",
-                  "livemode": false,
-                  "url": "https://pm.link/org-abc/test/d677VxY",
-                  "reference_number": "d677VxY",
-                  "metadata": null,
-                  "restrictions": {
-                    "completed_sessions": {
-                      "count": 0,
-                      "limit": 1
-                    }
-                  },
-                  "created_at": 1728128417,
-                  "updated_at": 1728128417
-                }
+                "id": "link_300754c52a8761ebe30dfdc8",
+                "amount": 10000,
+                "currency": "PHP",
+                "description": "claude audit test link",
+                "livemode": false,
+                "status": "active",
+                "url": "https://pm.link/org-abc/test/gM3hd11",
+                "reference_number": "gM3hd11",
+                "metadata": {},
+                "restrictions": {
+                  "completed_sessions": {
+                    "count": 0,
+                    "limit": 1
+                  }
+                },
+                "created_at": "2026-08-02T23:05:37Z",
+                "updated_at": "2026-08-02T23:05:37Z"
               }
             }
         """.trimIndent()
         val response = PayMongoJson.decodeFromString(PaymentLinkResponse.serializer(), json)
-        assertEquals("active", response.data.attributes.status)
-        assertEquals(1, response.data.attributes.restrictions?.completedSessions?.limit)
+        assertEquals("active", response.data.status)
+        assertEquals(1, response.data.restrictions?.completedSessions?.limit)
     }
 
+    // Captured from a live sandbox GET /v1/payment_links call
     @Test
     fun `Payment links list response should not throw an exception`() {
         val json = """
@@ -77,24 +72,20 @@ class NewResourcesTest {
               "data": [
                 {
                   "id": "link_xkZBPitmewE1YABBuMN8b5jh",
-                  "type": "payment_link",
-                  "attributes": {
-                    "amount": 10000,
-                    "currency": "PHP",
-                    "description": null,
-                    "remarks": null,
-                    "status": "active",
-                    "livemode": false,
-                    "url": "https://pm.link/org-abc/test/d677VxY",
-                    "reference_number": "d677VxY",
-                    "metadata": null,
-                    "restrictions": null,
-                    "created_at": 1728128417,
-                    "updated_at": 1728128417
-                  }
+                  "amount": 135000,
+                  "currency": "PHP",
+                  "description": null,
+                  "remarks": null,
+                  "status": "active",
+                  "livemode": false,
+                  "url": "https://pm.link/org-abc/test/d677VxY",
+                  "reference_number": "d677VxY",
+                  "metadata": {},
+                  "restrictions": null,
+                  "created_at": "2024-10-05T11:40:17Z",
+                  "updated_at": "2024-10-05T11:40:17Z"
                 }
-              ],
-              "has_more": false
+              ]
             }
         """.trimIndent()
         val response = PayMongoJson.decodeFromString(PaymentLinksResponse.serializer(), json)
@@ -102,21 +93,43 @@ class NewResourcesTest {
         assertFalse(response.hasMore)
     }
 
+    // Captured from a live sandbox GET /v1/payment_links/{id}/payments call
+    @Test
+    fun `Payment link payments response should not throw an exception`() {
+        val json = """
+            {
+              "data": [
+                {
+                  "payment_id": "pay_KXVd5SLmqF99kNFKrSTbiL6o",
+                  "amount": 135000,
+                  "currency": "PHP",
+                  "livemode": false,
+                  "description": "PREMIUM subscription for 3 month/s",
+                  "status": "paid",
+                  "created_at": "2024-10-05T11:41:35Z",
+                  "updated_at": "2024-10-05T11:41:35Z"
+                }
+              ]
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(PaymentLinkPaymentsResponse.serializer(), json)
+        assertEquals(1, response.data.size)
+        assertEquals("paid", response.data[0].status)
+    }
+
+    // Request shape verified against a live sandbox POST /v1/payment_links/{id}/refunds call
+    // (flat body -- no data/attributes wrapping, unlike the older Customer/Payment resources)
     @Test
     fun `Create refund input should serialize amount and payment id`() {
         val input = CreateRefundInput(
-            data = CreateRefundInput.RefundInput(
-                attributes = CreateRefundInput.Attributes(
-                    amount = 100.0,
-                    paymentId = "pay_123",
-                    reason = "requested_by_customer"
-                )
-            )
+            amount = 100.0,
+            paymentId = "pay_123",
+            reason = "requested_by_customer"
         )
         val json = PayMongoJson.encodeToString(CreateRefundInput.serializer(), input)
         val decoded = PayMongoJson.decodeFromString(CreateRefundInput.serializer(), json)
-        assertEquals("pay_123", decoded.data.attributes.paymentId)
-        assertEquals("requested_by_customer", decoded.data.attributes.reason)
+        assertEquals("pay_123", decoded.paymentId)
+        assertEquals("requested_by_customer", decoded.reason)
     }
 
     @Test
@@ -125,22 +138,19 @@ class NewResourcesTest {
             {
               "data": {
                 "id": "ref_abc123",
-                "type": "refund",
-                "attributes": {
-                  "amount": 10000,
-                  "currency": "PHP",
-                  "status": "succeeded",
-                  "payment_id": "pay_123",
-                  "reason": "requested_by_customer",
-                  "livemode": false,
-                  "created_at": 1728128417,
-                  "updated_at": 1728128417
-                }
+                "amount": 10000,
+                "currency": "PHP",
+                "status": "succeeded",
+                "payment_id": "pay_123",
+                "reason": "requested_by_customer",
+                "livemode": false,
+                "created_at": "2026-08-02T23:05:37Z",
+                "updated_at": "2026-08-02T23:05:37Z"
               }
             }
         """.trimIndent()
         val response = PayMongoJson.decodeFromString(RefundResponse.serializer(), json)
-        assertEquals("succeeded", response.data.attributes.status)
+        assertEquals("succeeded", response.data.status)
     }
 
     @Test

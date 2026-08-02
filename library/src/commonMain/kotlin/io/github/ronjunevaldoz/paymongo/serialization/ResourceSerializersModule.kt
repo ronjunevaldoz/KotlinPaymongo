@@ -3,9 +3,7 @@ package io.github.ronjunevaldoz.paymongo.serialization
 import io.github.ronjunevaldoz.paymongo.models.resource.Customer
 import io.github.ronjunevaldoz.paymongo.models.resource.Payment
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntent
-import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLink
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
-import io.github.ronjunevaldoz.paymongo.models.resource.Refund
 import io.github.ronjunevaldoz.paymongo.models.resource.Resource
 import io.github.ronjunevaldoz.paymongo.models.resource.Source
 import io.github.ronjunevaldoz.paymongo.models.resource.Webhook
@@ -19,8 +17,6 @@ val ResourceModule = SerializersModule {
         subclass(Payment::class, Payment.serializer())
         subclass(PaymentIntent::class, PaymentIntent.serializer())
         subclass(Webhook::class, Webhook.serializer())
-        subclass(PaymentLink::class, PaymentLink.serializer())
         subclass(Customer::class, Customer.serializer())
-        subclass(Refund::class, Refund.serializer())
     }
 }

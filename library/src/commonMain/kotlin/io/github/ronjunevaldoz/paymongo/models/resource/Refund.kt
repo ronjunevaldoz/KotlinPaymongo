@@ -3,22 +3,20 @@ package io.github.ronjunevaldoz.paymongo.models.resource
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Same flat convention as [PaymentLink] -- no `data.attributes` wrapping, confirmed live
+ * for the request body. The response shape below was not observed from a successful live
+ * refund (the sandbox call returned a business-rule 500 on an already-settled test payment),
+ * but follows the same flat family convention as its sibling endpoints.
+ */
 @Serializable
-data class CreateRefundInput(val data: RefundInput) {
-    @Serializable
-    data class RefundInput(
-        val attributes: Attributes
-    )
-
-    @Serializable
-    data class Attributes(
-        val amount: Double,
-        @SerialName("payment_id")
-        val paymentId: String,
-        val reason: String,
-        val metadata: Map<String, String>? = null
-    )
-}
+data class CreateRefundInput(
+    val amount: Double,
+    @SerialName("payment_id")
+    val paymentId: String,
+    val reason: String,
+    val metadata: Map<String, String>? = null
+)
 
 @Serializable
 data class RefundResponse(
@@ -26,24 +24,18 @@ data class RefundResponse(
 )
 
 @Serializable
-@SerialName("refund")
 data class Refund(
     val id: String,
-    val attributes: Attributes
-) : Resource() {
-    @Serializable
-    data class Attributes(
-        val amount: Int,
-        val currency: String,
-        val status: String,
-        @SerialName("payment_id")
-        val paymentId: String,
-        val reason: String,
-        @SerialName("livemode")
-        val liveMode: Boolean,
-        @SerialName("created_at")
-        val createdAt: Long,
-        @SerialName("updated_at")
-        val updatedAt: Long
-    )
-}
+    val amount: Int,
+    val currency: String,
+    val status: String,
+    @SerialName("payment_id")
+    val paymentId: String,
+    val reason: String,
+    @SerialName("livemode")
+    val liveMode: Boolean,
+    @SerialName("created_at")
+    val createdAt: String,
+    @SerialName("updated_at")
+    val updatedAt: String
+)

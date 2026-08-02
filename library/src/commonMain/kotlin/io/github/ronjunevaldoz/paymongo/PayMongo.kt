@@ -18,6 +18,7 @@ import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.Link
 import io.github.ronjunevaldoz.paymongo.models.resource.LinkResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkPaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinksResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
@@ -208,17 +209,11 @@ class PayMongo(
 
     override suspend fun updatePaymentLink(id: String, archive: Boolean): PaymentLinkResponse {
         return client.patch("payment_links/$id") {
-            setBody(
-                UpdatePaymentLinkInput(
-                    data = UpdatePaymentLinkInput.PaymentLinkInput(
-                        attributes = UpdatePaymentLinkInput.Attributes(archive)
-                    )
-                )
-            )
+            setBody(UpdatePaymentLinkInput(archive))
         }.body()
     }
 
-    override suspend fun getPaymentLinkPayments(id: String): PaymentsResponse {
+    override suspend fun getPaymentLinkPayments(id: String): PaymentLinkPaymentsResponse {
         return client.get("payment_links/$id/payments").body()
     }
 
