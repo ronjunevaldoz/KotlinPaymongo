@@ -65,13 +65,13 @@ data class Payment(
         val disputed: Boolean,
         @SerialName("external_reference_number")
         val externalReferenceNumber: String?=null,
-        val fee: Int,
+        val fee: Amount,
         @SerialName("foreign_fee")
-        val foreignFee: Int? = null,
+        val foreignFee: Amount? = null,
         @SerialName("livemode")
         val liveMode: Boolean,
         @SerialName("net_amount")
-        val netAmount: Int,
+        val netAmount: Amount,
         val origin: String,
         @SerialName("payment_intent_id")
         val paymentIntentId: String? = null,
@@ -81,7 +81,7 @@ data class Payment(
         val statementDescriptor: String? = null,
         val status: PaymentStatus,
         @SerialName("tax_amount")
-        val taxAmount: Int? = null,
+        val taxAmount: Amount? = null,
         val metadata: Map<String, String>? = null,
         val refunds : List<String> = emptyList(),
         val taxes : List<Tax> = emptyList(),

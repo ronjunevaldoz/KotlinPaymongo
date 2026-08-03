@@ -76,6 +76,8 @@ suspend fun IPayMongo.createLink(
     description: String,
     remarks: String
 ): LinkResponse {
+    // this whole function is itself deprecated (see annotation above); suppressing the same
+    // warning on the call it wraps, not silencing an unrelated real deprecation
     @Suppress("DEPRECATION")
     return createLink(
         CreateLinkInput(

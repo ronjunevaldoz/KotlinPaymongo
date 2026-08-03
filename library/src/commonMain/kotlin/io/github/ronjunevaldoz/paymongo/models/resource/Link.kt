@@ -40,11 +40,11 @@ data class Link(
         val description: String,
         @SerialName("livemode")
         val liveMode: Boolean,
-        val fee: Int,
+        val fee: Amount,
         val remarks: String,
         val status: String,
         @SerialName("tax_amount")
-        val taxAmount: Int?,
+        val taxAmount: Amount?,
         val taxes: List<Tax>,
         @SerialName("checkout_url")
         val checkoutUrl: String,

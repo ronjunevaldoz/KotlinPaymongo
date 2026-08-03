@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.2.0]
+
+### Added
+- New `paymongo-kotlin-ktor-server` artifact: a route-scoped Ktor plugin (`PayMongoWebhookVerification`) that verifies the `Paymongo-Signature` header and decodes the request body into a typed `ReceiveWebhookEvent`. Signature algorithm confirmed against PayMongo's official Node SDK source, not just docs prose.
+- Opt-in webhook redelivery dedup (`PayMongoWebhookConfig.dedupStore`, default `InMemoryPayMongoWebhookDedupStore`) -- PayMongo retries webhook delivery on timeout/failure, so a handler can otherwise double-process the same event.
+
+### Changed
+- `Payment.Attributes.fee`/`.netAmount`/`.foreignFee`/`.taxAmount` and `Link.Attributes.fee`/`.taxAmount` are now `Amount` instead of raw `Int`, matching every other money field. Wire format unchanged.
+
+### Investigated, not shipped
+- `Idempotency-Key` is documented by PayMongo ("POST requests that create or modify data") but tested live against `/v1/payment_links` -- two identical requests with the same key created two different resources. Not wired into the client; would have shipped a false sense of duplicate-charge protection.
+
 ## [v1.1.0]
 
 ### Added

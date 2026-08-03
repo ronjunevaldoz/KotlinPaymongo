@@ -19,3 +19,4 @@ rootProject.name = "paymongo-kotlin"
 include("samples:demo")
 include("library")
 include(":samples:server")
+include(":ktor-server")

@@ -3,7 +3,7 @@ Paymongo client for kotlin
 
 ![Build And Publish](https://github.com/ronjunevaldoz/KotlinPaymongo/actions/workflows/publish.yml/badge.svg)
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.ronjunevaldoz/paymongo-kotlin)
-[![Kotlin](https://img.shields.io/badge/kotlin-2.0.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.2.21-blue.svg?logo=kotlin)](http://kotlinlang.org)
 ![GitHub](https://img.shields.io/github/license/ronjunevaldoz/KotlinPaymongo)
 
 ## Feature
@@ -66,8 +66,41 @@ val config = Paymongo.Config.apply{
 }
 val client = PayMongo(config)
 ```
-## Ktor Webhook Integration
-https://github.com/ronjunevaldoz/KotlinPaymongo/wiki/Ktor-Webhook
+## Ktor Server Webhook Plugin
+
+`paymongo-kotlin-ktor-server` verifies the `Paymongo-Signature` header, decodes the payload, and
+optionally flags redelivered events. See [samples/server](samples/server/src/main/java/io/github/ronjunevaldoz/paymongo/server/Application.kt)
+for a full runnable example.
+
+```kotlin
+implementation("io.github.ronjunevaldoz:paymongo-kotlin-ktor-server:<VERSION>")
+```
+
+```kotlin
+routing {
+    route("/webhooks/paymongo") {
+        install(PayMongoWebhookVerification) {
+            secretKey = "whsec_..."
+            dedupStore = InMemoryPayMongoWebhookDedupStore() // opt-in; process-local only
+        }
+        post {
+            if (call.isDuplicatePayMongoEvent) {
+                call.respond(HttpStatusCode.OK)
+                return@post
+            }
+            when (call.payMongoEvent.data.attributes.type) {
+                WebhookEvent.Event.PaymentPaid -> { /* fulfill the order */ }
+                else -> {}
+            }
+            call.respond(HttpStatusCode.OK)
+        }
+    }
+}
+```
+
+A missing/malformed signature header throws `PayMongoSignatureFormatException`; a signature
+mismatch throws `PayMongoSignatureMismatchException`. Install Ktor's `StatusPages` to map either
+to a `400`, or they surface as an unhandled `500`.
 
 ## Installation
 ```kotlin

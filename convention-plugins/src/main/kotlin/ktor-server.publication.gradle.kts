@@ -6,21 +6,19 @@ plugins {
 
 val libraryVersion = providers.gradleProperty("libraryVersion").get()
 
-allprojects {
-    group = "io.github.ronjunevaldoz"
-    version = libraryVersion
-}
+group = "io.github.ronjunevaldoz"
+version = libraryVersion
 
 mavenPublishing {
     coordinates(
         groupId = "io.github.ronjunevaldoz",
-        artifactId = "paymongo-kotlin",
+        artifactId = "paymongo-kotlin-ktor-server",
         version = libraryVersion
     )
 
     pom {
-        name.set("KotlinPaymongo")
-        description.set("Paymongo Kotlin Client")
+        name.set("KotlinPaymongo Ktor Server")
+        description.set("Ktor server plugin for verifying and receiving PayMongo webhooks")
         licenses {
             license {
                 name.set("MIT")
@@ -42,8 +40,8 @@ mavenPublishing {
                 name.set("Ron June Valdoz")
                 url.set("https://github.com/ronjunevaldoz/")
                 email.set("ronjune.lopez@gmail.com")
-                organization.set("Ron June Valdoz") // TODO update real org
-                organizationUrl.set("https://github.com/ronjunevaldoz") // TODO update real org url
+                organization.set("Ron June Valdoz")
+                organizationUrl.set("https://github.com/ronjunevaldoz")
             }
         }
     }

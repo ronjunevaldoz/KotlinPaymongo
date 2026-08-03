@@ -9,7 +9,7 @@ plugins {
 
 
 application {
-    mainClass.set("io.github.paymongo.server.ApplicationKt")
+    mainClass.set("io.github.ronjunevaldoz.paymongo.server.ApplicationKt")
 //    applicationDefaultJvmArgs =
 //        listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
@@ -18,7 +18,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.ktor.client)
     implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.cio)
     implementation(project(":library"))
+    implementation(project(":ktor-server"))
 }
 
 java {

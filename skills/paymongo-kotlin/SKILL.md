@@ -20,6 +20,9 @@ implementation("io.github.ronjunevaldoz:paymongo-kotlin:1.1.0")
 // or a platform-specific artifact: paymongo-kotlin-<jvm|ios|android|wasmjs>
 ```
 
+A separate JVM-only artifact, `paymongo-kotlin-ktor-server`, adds a Ktor server plugin for
+receiving and verifying webhooks -- see the Webhooks section below.
+
 ## Quickstart
 
 ```kotlin
@@ -135,6 +138,60 @@ when (event.data.attributes.type) {
     else -> {}
 }
 ```
+
+### Receiving webhooks in a Ktor server: use `paymongo-kotlin-ktor-server`
+
+Don't hand-roll signature verification. This is a separate artifact (Ktor server deps are
+JVM-only, unlike the multiplatform core) that verifies the `Paymongo-Signature` header,
+decodes the body, and optionally flags redelivered events.
+
+```kotlin
+implementation("io.github.ronjunevaldoz:paymongo-kotlin-ktor-server:1.1.0")
+```
+
+```kotlin
+routing {
+    route("/webhooks/paymongo") {
+        install(PayMongoWebhookVerification) {
+            secretKey = "whsec_..." // shown when the webhook endpoint was created
+            dedupStore = InMemoryPayMongoWebhookDedupStore() // opt-in, see below
+        }
+        post {
+            if (call.isDuplicatePayMongoEvent) {
+                call.respond(HttpStatusCode.OK) // ack without reprocessing
+                return@post
+            }
+            when (call.payMongoEvent.data.attributes.type) {
+                WebhookEvent.Event.PaymentPaid -> { /* fulfill the order */ }
+                else -> {}
+            }
+            call.respond(HttpStatusCode.OK)
+        }
+    }
+}
+```
+
+**Signature algorithm** (confirmed against PayMongo's official Node SDK source, not just
+docs prose): header is `t=<timestamp>,te=<test_sig>,li=<live_sig>`; signed string is
+`"<timestamp>.<raw body>"`; HMAC-SHA256 with the webhook secret, hex-encoded; compare
+against `li` if non-empty else `te`. Use `PayMongoWebhookVerifier.verify(...)` directly if
+you need the raw check outside the plugin.
+
+**PayMongo retries webhook delivery on timeout/failure** -- your handler can see the same
+event id twice. `dedupStore` is opt-in (default `null`, meaning `isDuplicatePayMongoEvent`
+is always `false`) because the bundled `InMemoryPayMongoWebhookDedupStore` is process-local
+only; a multi-instance deployment needs a shared store (Redis, a DB unique constraint on
+event id) or redeliveries won't be caught across instances.
+
+A missing/malformed signature header throws `PayMongoSignatureFormatException`; a mismatch
+throws `PayMongoSignatureMismatchException`. Neither is caught by the plugin -- install
+Ktor's `StatusPages` to map them to a `400`, or they surface as an unhandled `500`.
+
+**Confirmed NOT a real PayMongo feature, despite doc prose suggesting otherwise:**
+`Idempotency-Key` is documented ("POST requests that create or modify data") but tested
+live against `/v1/payment_links` -- two identical requests with the same key created two
+different resources. Do not build retry-safety on this header for the endpoints this
+library covers; it may only apply to the separate money-movement/transfer API.
 
 ## Errors
 
