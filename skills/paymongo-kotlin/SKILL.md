@@ -98,7 +98,7 @@ supports PHP today, so either naming works; prefer whichever reads clearer at th
 | PaymentLink | flat | ISO-8601 string | replaces `Link`; `createPaymentLink`/`getPaymentLink`/`listPaymentLinks`/`updatePaymentLink(id, archive: Boolean)`/`getPaymentLinkPayments` |
 | Refund | flat | ISO-8601 string | `createPaymentLinkRefund` only -- PayMongo has no retrieve/list refund endpoint |
 | Customer | nested | epoch Long | full CRUD |
-| Customer Payment Methods (v2) | flat | epoch Long | `listCustomerPaymentMethods`/`deleteCustomerPaymentMethod` -- PayMongo has no standalone `/payment_methods/{id}` endpoint, only customer-scoped ones |
+| Customer Payment Methods (v2) | flat | epoch Long | `listCustomerPaymentMethods`/`deleteCustomerPaymentMethod` -- PayMongo has no standalone `/payment_methods/{id}` endpoint, only customer-scoped ones. Confirmed live: a customer with zero payment methods returns `404 resource_not_found`, not an empty list -- catch `PayMongoException`, don't treat it as a bug |
 
 ## Not offered by the PayMongo API (not a gap in this library)
 

@@ -80,7 +80,7 @@ data class PaymentIntent(
         @SerialName("next_action")
         val nextAction: NextAction?, // array
         @SerialName("payment_method_options")
-        val paymentMethodOptions: PaymentRequestOptions,
+        val paymentMethodOptions: PaymentRequestOptions? = null,
         val metadata: Map<String, String>?,
         @SerialName("created_at")
         val createdAt: Long,

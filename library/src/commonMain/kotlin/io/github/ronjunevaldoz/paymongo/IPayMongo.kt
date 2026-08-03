@@ -206,7 +206,10 @@ interface IPayMongo {
 
     /**
      * PayMongo has no standalone `/payment_methods/{id}` retrieve/update endpoint -- only
-     * customer-scoped payment methods exist.
+     * customer-scoped payment methods exist. Confirmed live: a customer with zero payment
+     * methods attached returns `404 resource_not_found`, not an empty list -- catch
+     * [io.github.ronjunevaldoz.paymongo.exception.PayMongoException] rather than treating a
+     * failure here as unexpected.
      *  @param [customerId] Customer id
      *  @param [limit] Max resources to return; defaults to 20, max 100, server-side
      *  @param [lastEvaluatedPaymentMethodId] Pagination cursor; keep paginating until omitted from the response

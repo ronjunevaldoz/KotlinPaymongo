@@ -137,7 +137,7 @@ data class PaymentMethod(
     @Serializable
     data class Attributes(
         val billing: Billing,
-        val details: Details,
+        val details: Details? = null,
         @SerialName("livemode")
         val liveMode: Boolean,
         val type: PaymentType,

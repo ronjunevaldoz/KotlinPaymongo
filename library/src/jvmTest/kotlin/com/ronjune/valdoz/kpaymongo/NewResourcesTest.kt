@@ -17,6 +17,8 @@ import io.github.ronjunevaldoz.paymongo.models.resource.DeletedCustomerResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkPaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinkResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentLinksResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentIntentResponse
+import io.github.ronjunevaldoz.paymongo.models.resource.PaymentMethodResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.PaymentsResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.RefundResponse
 import io.github.ronjunevaldoz.paymongo.models.resource.UpdateCustomerInput
@@ -416,5 +418,66 @@ class NewResourcesTest {
         val response = PayMongoJson.decodeFromString(CheckoutSessionV2Response.serializer(), json)
         assertEquals("cs_abc123", response.data.id)
         assertEquals("https://checkout.paymongo.com/cs_abc123", response.data.attributes.checkoutUrl)
+    }
+
+    // regression: PaymentMethod.Attributes.details was non-nullable, but a live sandbox
+    // GCash payment method response has "details": null (only card-type methods have card
+    // details)
+    @Test
+    fun `Payment method response with null details should not throw an exception`() {
+        val json = """
+            {
+              "data": {
+                "id": "pm_KCCaw5QHXgbrp9a7mRxXzzt7",
+                "type": "payment_method",
+                "attributes": {
+                  "billing": {
+                    "name": "Test User",
+                    "phone": "09171234567",
+                    "email": "test@example.com"
+                  },
+                  "details": null,
+                  "livemode": false,
+                  "type": "gcash",
+                  "metadata": null,
+                  "created_at": 1785715123,
+                  "updated_at": 1785715123
+                }
+              }
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(PaymentMethodResponse.serializer(), json)
+        assertEquals(null, response.data.attributes.details)
+    }
+
+    // regression: PaymentIntent.Attributes.paymentMethodOptions was non-nullable, but a live
+    // sandbox response has "payment_method_options": null when no card option is configured
+    @Test
+    fun `Payment intent response with null payment method options should not throw an exception`() {
+        val json = """
+            {
+              "data": {
+                "id": "pi_qgi4UNXtyXeTcisRfVtZ9FRf",
+                "type": "payment_intent",
+                "attributes": {
+                  "amount": 10000,
+                  "currency": "PHP",
+                  "status": "awaiting_payment_method",
+                  "livemode": false,
+                  "client_key": "pi_qgi4UNXtyXeTcisRfVtZ9FRf_client_wxevCoikvrZkzGdedftyako5",
+                  "capture_type": "any",
+                  "payment_method_allowed": ["gcash"],
+                  "payments": [],
+                  "next_action": null,
+                  "payment_method_options": null,
+                  "metadata": null,
+                  "created_at": 1785715123,
+                  "updated_at": 1785715123
+                }
+              }
+            }
+        """.trimIndent()
+        val response = PayMongoJson.decodeFromString(PaymentIntentResponse.serializer(), json)
+        assertEquals(null, response.data.attributes.paymentMethodOptions)
     }
 }
