@@ -16,7 +16,7 @@ Kotlin Multiplatform client for the [PayMongo API](https://docs.paymongo.com/ref
 Targets: JVM, Android, iOS (x64/arm64/simulatorArm64), wasmJs, linuxX64.
 
 ```kotlin
-implementation("io.github.ronjunevaldoz:paymongo-kotlin:1.1.0")
+implementation("io.github.ronjunevaldoz:paymongo-kotlin:1.3.0")
 // or a platform-specific artifact: paymongo-kotlin-<jvm|ios|android|wasmjs>
 ```
 
@@ -97,6 +97,7 @@ supports PHP today, so either naming works; prefer whichever reads clearer at th
 | Webhook | nested | epoch Long | |
 | CheckoutSession (v1) | nested | epoch Long | `createCheckoutSession`/`getCheckoutSession`/`expireCheckoutSession` |
 | CheckoutSession (v2) | flat | epoch Long | `createCheckoutSessionV2` -- deferred flow, no Payment Intent created up front; PayMongo recommends this for new integrations, track payment via the `checkout_session.payment.paid` webhook |
+| Merchant payment methods | bare array | -- | `getMerchantPaymentMethods()` returns the activated `payment_method_types` as raw strings (e.g. `qrph`); map with `PaymentType.fromValue`. Checkout sessions reject `atome` and `maya` (use `paymaya`) |
 | Link | nested | epoch Long | **deprecated** -- PayMongo retired `/links` from its docs |
 | PaymentLink | flat | ISO-8601 string | replaces `Link`; `createPaymentLink`/`getPaymentLink`/`listPaymentLinks`/`updatePaymentLink(id, archive: Boolean)`/`getPaymentLinkPayments` |
 | Refund | flat | ISO-8601 string | `createPaymentLinkRefund` only -- PayMongo has no retrieve/list refund endpoint |

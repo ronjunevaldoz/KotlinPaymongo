@@ -116,6 +116,16 @@ interface IPayMongo {
     suspend fun createCheckoutSessionV2(input: CreateCheckoutSessionV2Input): CheckoutSessionV2Response
 
     /**
+     * Payment method types currently activated on the merchant account
+     * (`GET /v1/merchants/capabilities/payment_methods`), e.g. `["card", "gcash", "qrph"]`.
+     * Methods not yet activated are absent. Raw identifiers, since the account can have types
+     * this library has no [io.github.ronjunevaldoz.paymongo.models.resource.PaymentType] for;
+     * map with `PaymentType.fromValue`.
+     * @see (https://docs.paymongo.com/docs/account-settings-account-capabilities)
+     */
+    suspend fun getMerchantPaymentMethods(): List<String>
+
+    /**
      * PayMongo retired the `/links` endpoint these target from its docs.
      * Use [createPaymentLink] and friends against `/v1/payment_links` instead.
      */

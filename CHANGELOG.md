@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.0]
+
+### Added
+- `PaymentType.QrPh` (`qrph`), `ShopeePay` (`shopee_pay`), `DobUbp` (`dob_ubp`), `BrankasBdo`, `BrankasLandbank`, `BrankasMetrobank` (`brankas_*`): the checkout session `payment_method_types` PayMongo documents that were missing. Decoding a checkout session that listed one of them threw "Type not yet supported".
+- `PaymentType.fromValue(value)`: lookup by wire value, null when unknown.
+- `getMerchantPaymentMethods()`: `GET /v1/merchants/capabilities/payment_methods`, the payment method types activated on the merchant account (raw identifiers, e.g. `["card", "gcash", "qrph"]`).
+
+### Changed
+- Documented that `PaymentType.Atome` and `PaymentType.Maya` are not checkout session types (a session listing them is rejected). Values unchanged.
+
 ## [v1.2.0]
 
 ### Added
