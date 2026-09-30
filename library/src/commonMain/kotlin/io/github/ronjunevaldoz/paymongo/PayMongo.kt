@@ -47,6 +47,11 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.plugins.logging.LogLevel
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 
 class PayMongo(
@@ -164,6 +169,13 @@ class PayMongo(
         return client.post("/v2/checkout_sessions") {
             setBody(input)
         }.body()
+    }
+
+    override suspend fun getMerchantPaymentMethods(): List<String> {
+        // Documented as a bare array; also accept a `{"data": [...]}` envelope like other endpoints.
+        val body = client.get("merchants/capabilities/payment_methods").body<JsonElement>()
+        val array = body as? JsonArray ?: body.jsonObject["data"]?.jsonArray ?: JsonArray(emptyList())
+        return array.map { it.jsonPrimitive.content }
     }
 
     @Deprecated("Retired by PayMongo; use createPaymentLink", ReplaceWith("createPaymentLink(input)"))

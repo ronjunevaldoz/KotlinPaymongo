@@ -28,6 +28,8 @@ Paymongo client for kotlin
   - [x] Create checkout session (v1)
   - [x] Get / expire checkout session
   - [x] Create checkout session (v2, deferred flow, recommended for new integrations)
+- Merchant
+  - [x] Get activated payment methods (`GET /v1/merchants/capabilities/payment_methods`)
 - Webhooks
   - [x] Create webhook
   - [x] Get webhook
